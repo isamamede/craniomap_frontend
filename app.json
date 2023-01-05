@@ -3,8 +3,15 @@
     "name": "face-measures",
     "slug": "face-measures",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
+    "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Please allow acess to your photos!",
+          "cameraPermission": "Please allow acess to your camera!"
+        }
+      ]
     ]
   }
 }
