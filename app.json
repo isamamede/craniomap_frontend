@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "face-measures",
+    "slug": "face-measures",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
