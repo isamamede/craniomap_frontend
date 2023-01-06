@@ -6,7 +6,7 @@ import Canvas, {
   Image as CanvasImage,
   CanvasRenderingContext2D,
 } from "react-native-canvas";
-import { Point } from "../../../@types/landmarks";
+import { TPoint } from "../../../@types/landmarks";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 import { drawPoint } from "../../../utils/functions/drawPoint";
@@ -16,8 +16,8 @@ export default function ProfilePointsScreen() {
   const { image } = useImage();
 
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [cer, setCer] = useState<Point | null>(null);
-  const [np, setNp] = useState<Point | null>(null);
+  const [cer, setCer] = useState<TPoint | null>(null);
+  const [np, setNp] = useState<TPoint | null>(null);
   const [drawingPoint, setDrawingPoint] = useState<"Cer" | "Np">("Cer");
   const [canvasImg, setCanvasImg] = useState<CanvasImage | null>(null);
   const { setProfilePredictions, profilePredictions } = useProfilePredictions();

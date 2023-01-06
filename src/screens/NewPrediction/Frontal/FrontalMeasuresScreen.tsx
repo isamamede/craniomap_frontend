@@ -1,8 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Center, Heading, IconButton, VStack } from "native-base";
 import { useState } from "react";
+import FrontalSaveModal from "../../../components/FrontalSaveModal";
 import RenderMeasures from "../../../components/RenderMeasures";
-import SaveModal from "../../../components/SaveModal";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 
@@ -14,13 +14,7 @@ export default function FrontalMeasuresScreen() {
   return (
     <Center height={"full"} width={"full"}>
       {frontalPredictions && (
-        <SaveModal
-          Points={frontalPredictions}
-          visible={modalVisible}
-          setVisible={setModalVisible}
-          Measures={frontalMeasures}
-          Layout={layout}
-        />
+        <FrontalSaveModal visible={modalVisible} setVisible={setModalVisible} />
       )}
       <VStack marginBottom={4}>
         <Heading fontSize="xl" pb="3">

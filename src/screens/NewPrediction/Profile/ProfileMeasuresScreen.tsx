@@ -1,8 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Center, Heading, IconButton, VStack } from "native-base";
 import { useState } from "react";
+import ProfileSaveModal from "../../../components/ProfileSaveModal";
 import RenderMeasures from "../../../components/RenderMeasures";
-import SaveModal from "../../../components/SaveModal";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 
 export default function ProfileMeasuresScreen() {
@@ -12,13 +12,7 @@ export default function ProfileMeasuresScreen() {
   return (
     <Center height={"full"}>
       {profilePredictions && (
-        <SaveModal
-          Points={profilePredictions}
-          visible={modalVisible}
-          setVisible={setModalVisible}
-          Measures={profileMeasures}
-          Layout={"Profile"}
-        />
+        <ProfileSaveModal visible={modalVisible} setVisible={setModalVisible} />
       )}
       <Heading fontSize="xl" p="4" pb="3">
         Measures obtained

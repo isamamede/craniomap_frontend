@@ -2,7 +2,7 @@ import { Box, Text } from "native-base";
 import {
   IFrontalMeasures,
   IProfileMeasures,
-  measure,
+  TMeasure,
 } from "../@types/landmarks";
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 export default function RenderMeasures({ measures }: IProps) {
   return (
     <>
-      {Object.values(measures).map((measure: measure) => {
+      {Object.values(measures).map((measure: TMeasure) => {
         return (
           <Box key={measure.name}>
             <Text bold>{measure.name}:</Text>

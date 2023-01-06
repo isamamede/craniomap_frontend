@@ -10,12 +10,12 @@ import {
 import {
   IFrontalMeasures,
   IFrontalPredictions,
-  Point,
+  TPoint,
 } from "../@types/landmarks";
 import { getDistance } from "../utils/functions/getDistance";
 import getFrontalMeasures from "../utils/functions/getFrontalMeasures";
 
-type TPoints = { point1: Point; point2: Point };
+type TPoints = { point1: TPoint; point2: TPoint };
 
 type TFrontalPredictions = {
   frontalPredictions: IFrontalPredictions | null;

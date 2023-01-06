@@ -1,15 +1,15 @@
-import { Point } from "./landmarks";
+import { TPoint } from "./landmarks";
 
 export interface IServerProfilePredictions {
-  g: Point;
-  sn: Point;
-  t: Point;
-  n: Point;
-  gn: Point;
-  st: Point;
-  me: Point;
-  ls: Point;
-  li: Point;
+  g: TPoint;
+  sn: TPoint;
+  t: TPoint;
+  n: TPoint;
+  gn: TPoint;
+  st: TPoint;
+  me: TPoint;
+  ls: TPoint;
+  li: TPoint;
 }
 
 export type TProfileResponseBody = { predictions: IServerProfilePredictions };

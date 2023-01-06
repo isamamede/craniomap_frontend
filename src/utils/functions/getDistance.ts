@@ -1,4 +1,4 @@
-import { Point } from "../../@types/landmarks";
+import { TPoint } from "../../@types/landmarks";
 
 /**
  * Get distance between two 2D points
@@ -6,7 +6,7 @@ import { Point } from "../../@types/landmarks";
  * @param B second point
  * @returns Distance between A and B in pixels
  */
-export function getDistance(A: Point, B: Point): number {
+export function getDistance(A: TPoint, B: TPoint): number {
   let y = B.x - A.x;
   let x = B.y - A.y;
   return Math.sqrt(x * x + y * y);
@@ -19,8 +19,8 @@ export function getDistance(A: Point, B: Point): number {
  * @returns Distance between A and B in cm
  */
 export function getDistanceInCM(
-  A: Point,
-  B: Point,
+  A: TPoint,
+  B: TPoint,
   cm: number,
   cmInPx: number
 ): number {

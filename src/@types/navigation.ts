@@ -4,6 +4,11 @@ declare global {
   }
 }
 
+export type TabParamList = {
+  New: undefined;
+  Record: undefined;
+};
+
 export type NewStackParamList = {
   Image: undefined;
   Layout: undefined;
@@ -13,4 +18,11 @@ export type NewStackParamList = {
   ProfileDetect: undefined;
   ProfileMeasures: undefined;
   ProfileMarkPoints: undefined;
+};
+
+export type RecordParamList = {
+  AllParticipants: undefined;
+  Participant: undefined;
+  FrontalPrediction: undefined;
+  ProfilePrediction: undefined;
 };

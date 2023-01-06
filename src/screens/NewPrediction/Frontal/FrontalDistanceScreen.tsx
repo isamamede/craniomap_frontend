@@ -14,7 +14,7 @@ import Canvas, {
   Image as CanvasImage,
   CanvasRenderingContext2D,
 } from "react-native-canvas";
-import { Point } from "../../../@types/landmarks";
+import { TPoint } from "../../../@types/landmarks";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 import { drawPoint } from "../../../utils/functions/drawPoint";
@@ -25,8 +25,8 @@ export default function FrontalDistanceScreen() {
   const { setDistancePoints, setValueInCM } = useFrontalPredictions();
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [canvasImg, setCanvasImg] = useState<CanvasImage | null>(null);
-  const [point1, setPoint1] = useState<Point | null>(null);
-  const [point2, setPoint2] = useState<Point | null>(null);
+  const [point1, setPoint1] = useState<TPoint | null>(null);
+  const [point2, setPoint2] = useState<TPoint | null>(null);
   const [drawingPoint, setDrawingPoint] = useState<"one" | "two">("one");
   const [cm, setCM] = useState<string>("5");
   const navigation = useNavigation();

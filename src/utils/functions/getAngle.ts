@@ -1,4 +1,4 @@
-import { Point } from "../../@types/landmarks";
+import { TPoint } from "../../@types/landmarks";
 
 /**
  * Calculate the angle ABC (in radians)
@@ -8,9 +8,9 @@ import { Point } from "../../@types/landmarks";
  * @returns Angle in degress
  */
 export default function getAngle(
-  A: Point,
-  B: Point,
-  C: Point,
+  A: TPoint,
+  B: TPoint,
+  C: TPoint,
   max180: boolean = true
 ) {
   const radians =

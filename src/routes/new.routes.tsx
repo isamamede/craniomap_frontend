@@ -12,38 +12,28 @@ import ProfileDetectScreen from "../screens/NewPrediction/Profile/ProfileDetectS
 import ProfileMeasuresScreen from "../screens/NewPrediction/Profile/ProfileMeasuresScreen";
 import ProfilePointsScreen from "../screens/NewPrediction/Profile/ProfilePointsScreen";
 
-const { Screen, Navigator, Group } =
-  createNativeStackNavigator<NewStackParamList>();
+const { Screen, Navigator } = createNativeStackNavigator<NewStackParamList>();
 
-export function NewRoutes() {
+export function NewStack() {
   return (
     <ImageProvider>
       <FrontalPredictionsProvider>
         <ProfilePredictionsProvider>
           <Navigator>
-            <Group>
-              <Screen name="Image" component={ImageScreen} />
-              <Screen name="Layout" component={LayoutScreen} />
-            </Group>
-            <Group>
-              <Screen name="FrontalDetect" component={FrontalDetectScreen} />
-              <Screen
-                name="FrontalDistance"
-                component={FrontalDistanceScreen}
-              />
-              <Screen name="FrontalMeasures" component={FrontalMeasureScreen} />
-            </Group>
-            <Group>
-              <Screen name="ProfileDetect" component={ProfileDetectScreen} />
-              <Screen
-                name="ProfileMarkPoints"
-                component={ProfilePointsScreen}
-              />
-              <Screen
-                name="ProfileMeasures"
-                component={ProfileMeasuresScreen}
-              />
-            </Group>
+            <Screen
+              name="Image"
+              options={{ headerShown: false }}
+              component={ImageScreen}
+            />
+            <Screen name="Layout" component={LayoutScreen} />
+
+            <Screen name="FrontalDetect" component={FrontalDetectScreen} />
+            <Screen name="FrontalDistance" component={FrontalDistanceScreen} />
+            <Screen name="FrontalMeasures" component={FrontalMeasureScreen} />
+
+            <Screen name="ProfileDetect" component={ProfileDetectScreen} />
+            <Screen name="ProfileMarkPoints" component={ProfilePointsScreen} />
+            <Screen name="ProfileMeasures" component={ProfileMeasuresScreen} />
           </Navigator>
         </ProfilePredictionsProvider>
       </FrontalPredictionsProvider>
