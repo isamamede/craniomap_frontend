@@ -1,22 +1,38 @@
 import { useNavigation } from "@react-navigation/native";
-import { Center, HStack, Heading, VStack } from "native-base";
-import { useState } from "react";
+import { Center, HStack, Heading } from "native-base";
+import { useMemo, useState } from "react";
+import { CanvasRenderingContext2D } from "react-native-canvas";
+import { TMeasure } from "../../../@types/landmarks";
 import { IconButton } from "../../../components/IconButton";
-import RenderMeasures from "../../../components/RenderMeasures";
+import PredictionCarousel from "../../../components/PredictionsCarousel";
 import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
+import drawFrontalMeasures from "../../../utils/functions/drawFrontalMeasures";
 
 export default function FrontalMeasuresScreen() {
   const navigation = useNavigation();
-  const { setImage } = useImage();
+  const { setImage, image } = useImage();
   const { frontalMeasures, frontalPredictions } = useFrontalPredictions();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const measuresArray = useMemo(() => {
+    if (frontalMeasures) {
+      const { cls, cli, af, ats, atm, ati, lf } = frontalMeasures;
+      return [cls, cli, af, ats, atm, ati, lf];
+    }
+    return [];
+  }, [frontalMeasures]);
 
   const handleHome = () => {
     setImage(null);
     navigation.navigate("Image");
+  };
+
+  const onDraw = (ctx: CanvasRenderingContext2D, item: TMeasure) => {
+    if (frontalMeasures && frontalPredictions)
+      drawFrontalMeasures(ctx, item, frontalPredictions);
   };
 
   return (
@@ -30,14 +46,19 @@ export default function FrontalMeasuresScreen() {
           table={tablesNames.frontalPred}
         />
       )}
-      <VStack marginBottom={4}>
-        <Heading fontSize="xl" pb="3">
-          Measures obtained
-        </Heading>
-        {frontalMeasures && <RenderMeasures measures={frontalMeasures} />}
-      </VStack>
+      <Heading fontSize={"md"} p="4">
+        Measures Obtained
+      </Heading>
+      {frontalMeasures && image && (
+        <PredictionCarousel
+          imgUrl={`data:image/jpg;base64,${image.base64}`}
+          measureArray={measuresArray}
+          onDraw={onDraw}
+          donwloadEnabled={false}
+        />
+      )}
       <Center>
-        <HStack justifyContent="space-evenly" width={"50%"}>
+        <HStack py={3} justifyContent="space-evenly" width={"40%"}>
           <IconButton
             borderRadius="md"
             variant="solid"

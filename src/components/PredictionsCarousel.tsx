@@ -1,42 +1,49 @@
-import { Center, CircleIcon, FlatList, HStack } from "native-base";
+import { Center, CircleIcon, FlatList, HStack, StyledProps } from "native-base";
 import { Dimensions } from "react-native";
 
 import { CanvasRenderingContext2D } from "react-native-canvas";
 import { TMeasure } from "../@types/landmarks";
-import CanvasImage from "./CanvasImage";
+import ImageDownloader from "./ImageDownloader";
 
 type TProps = {
   onDraw: (ctx: CanvasRenderingContext2D, item: TMeasure) => void;
-  w?: string | number;
-  h?: string | number;
   measureArray: TMeasure[];
   imgUrl: string;
-};
+  donwloadEnabled?: boolean;
+} & StyledProps;
 
-let { width, height } = Dimensions.get("screen");
+let { width } = Dimensions.get("screen");
 
 export default function PredictionCarousel({
   onDraw,
   w = width,
-  h = height,
+  h,
   measureArray,
   imgUrl,
+  donwloadEnabled = true,
+  ...props
 }: TProps) {
   return (
     <FlatList
       data={measureArray}
       horizontal
       pagingEnabled
-      maxHeight={h}
+      h={h}
+      showsHorizontalScrollIndicator={false}
+      {...props}
       renderItem={({ item, index }) => (
-        <Center key={item.name} width={w} padding={2}>
-          <CanvasImage img_url={imgUrl} onDraw={(ctx) => onDraw(ctx, item)} />
-          <HStack mt={5} justifyContent={"center"}>
+        <Center key={item.name} width={w}>
+          <ImageDownloader
+            img_url={imgUrl}
+            onDraw={(ctx) => onDraw(ctx, item)}
+            downloadEnabled={donwloadEnabled}
+          />
+          <HStack mt={2} justifyContent={"center"}>
             {measureArray.map((_, i) => (
               <CircleIcon
                 key={i}
                 size={i === index ? "2" : "1.5"}
-                m={2}
+                mx={2}
                 color={
                   i === index ? "primary.500:alpha.50" : "coolGray.300:alpha.80"
                 }

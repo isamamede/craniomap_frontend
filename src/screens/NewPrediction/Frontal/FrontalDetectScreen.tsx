@@ -2,36 +2,26 @@ import { useNavigation } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
 import { StatusBar } from "expo-status-bar";
 import { Button, Center, HStack, Spinner, VStack } from "native-base";
-import { useEffect, useState } from "react";
-import { Alert, Platform, StyleSheet } from "react-native";
-import Canvas, {
-  Image as CanvasImage,
-  CanvasRenderingContext2D,
-} from "react-native-canvas";
+import { useRef, useState } from "react";
+import { Alert, Platform } from "react-native";
+import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IFrontalPredictions } from "../../../@types/landmarks";
+import CanvasImage from "../../../components/CanvasImage";
 import { SERVER_URL } from "../../../constants/server";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 import drawFront from "../../../utils/functions/drawFront";
-import loadImage from "../../../utils/functions/loadImage";
 
 export default function FrontalDetectScreen() {
+  const navigation = useNavigation();
   const { image } = useImage();
   const { setFrontalPredictions } = useFrontalPredictions();
+  const canvas = useRef<Canvas>(null);
   const [predictions, setPredictions] = useState<IFrontalPredictions | null>(
     null
   );
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [canvasImg, setCanvasImg] = useState<CanvasImage | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    if (ctx && canvasImg) {
-      ctx.drawImage(canvasImg, 0, 0);
-      ctx.save();
-    }
-  }, [ctx, canvasImg]);
 
   const handleDetect = async () => {
     if (image) {
@@ -58,26 +48,13 @@ export default function FrontalDetectScreen() {
     }
   };
 
-  const handleDraw = () => {
-    if (predictions && ctx && canvasImg) {
-      ctx.drawImage(canvasImg, 0, 0);
-      drawFront(predictions, ctx);
-      ctx.save();
-    }
+  const onDraw = (contex: CanvasRenderingContext2D) => {
+    setCtx(contex);
   };
 
-  const handleCanvas = async (canvas: Canvas) => {
-    if (canvas !== null) {
-      canvas.width = image ? image.width : canvas.width;
-      canvas.height = image ? image.height : canvas.height;
-      var ctx = canvas.getContext("2d");
-      if (image && !canvasImg) {
-        let base64Img = `data:image/jpg;base64,${image.base64}`;
-        var background = await loadImage(base64Img, canvas);
-        setCanvasImg(background);
-      }
-      ctx.save();
-      setCtx(ctx);
+  const handleDraw = () => {
+    if (predictions && ctx) {
+      drawFront(predictions, ctx);
     }
   };
 
@@ -117,9 +94,11 @@ export default function FrontalDetectScreen() {
           </HStack>
         </Center>
         {image && (
-          <Center width={image.width} height={image.height}>
-            <Canvas style={styles.canvas} ref={handleCanvas} />
-          </Center>
+          <CanvasImage
+            canvasRef={canvas}
+            onDraw={onDraw}
+            img_url={`data:image/jpg;base64,${image.base64}`}
+          />
         )}
         <Button onPress={handleDone} isDisabled={!predictions || loading}>
           Done
@@ -129,10 +108,3 @@ export default function FrontalDetectScreen() {
     </Center>
   );
 }
-
-const styles = StyleSheet.create({
-  canvas: {
-    position: "absolute",
-    zIndex: 9,
-  },
-});

@@ -17,6 +17,7 @@ const ProfilePredictionsSchema = {
     st: tablesNames.point,
     ls: tablesNames.point,
     li: tablesNames.point,
+    cc: tablesNames.point,
     acf: tablesNames.measure,
     acm: tablesNames.measure,
     anl: tablesNames.measure,

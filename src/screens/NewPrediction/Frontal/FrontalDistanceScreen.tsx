@@ -8,63 +8,42 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { useEffect, useState } from "react";
-import { Alert, GestureResponderEvent, StyleSheet } from "react-native";
-import Canvas, {
-  Image as CanvasImage,
-  CanvasRenderingContext2D,
-} from "react-native-canvas";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, GestureResponderEvent } from "react-native";
+import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { TPoint } from "../../../@types/landmarks";
+import CanvasImage from "../../../components/CanvasImage";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 import { drawPoint } from "../../../utils/functions/drawPoint";
-import loadImage from "../../../utils/functions/loadImage";
+
+type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;
 
 export default function FrontalDistanceScreen() {
+  const navigation = useNavigation();
   const { image } = useImage();
   const { setDistancePoints, setValueInCM } = useFrontalPredictions();
+  const canvas = useRef<Canvas>(null);
+  const canvasImgRef = useRef<CanvasImageHandle>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [canvasImg, setCanvasImg] = useState<CanvasImage | null>(null);
   const [point1, setPoint1] = useState<TPoint | null>(null);
   const [point2, setPoint2] = useState<TPoint | null>(null);
   const [drawingPoint, setDrawingPoint] = useState<"one" | "two">("one");
   const [cm, setCM] = useState<string>("5");
-  const navigation = useNavigation();
 
   useEffect(() => {
-    if (ctx && canvasImg) {
-      if (point1 && !point2) {
-        ctx.drawImage(canvasImg, 0, 0);
-        drawPoint(point1.x, point1.y, ctx);
-        ctx.save();
-      }
-      if (point1 && point2) {
-        ctx.drawImage(canvasImg, 0, 0);
-        drawPoint(point1.x, point1.y, ctx);
-        drawPoint(point2.x, point2.y, ctx);
-      }
+    if (ctx) {
+      canvasImgRef.current?.reset(() => {
+        if (point1) {
+          drawPoint(point1.x, point1.y, ctx);
+        }
+        if (point2) drawPoint(point2.x, point2.y, ctx);
+      });
     }
-  }, [point1, point2, drawingPoint, cm]);
+  }, [point1, point2]);
 
-  useEffect(() => {
-    if (ctx && canvasImg) {
-      ctx.drawImage(canvasImg, 0, 0);
-      ctx.save();
-    }
-  }, [ctx, canvasImg]);
-
-  const handleCanvas = async (canvas: Canvas) => {
-    if (canvas !== null) {
-      canvas.width = image ? image.width : canvas.width;
-      canvas.height = image ? image.height : canvas.height;
-      var ctx = canvas.getContext("2d");
-      if (image && !canvasImg) {
-        let base64Img = `data:image/jpg;base64,${image.base64}`;
-        var background = await loadImage(base64Img, canvas);
-        setCanvasImg(background);
-      }
-      setCtx(ctx);
-    }
+  const handleDraw = (ctx: CanvasRenderingContext2D) => {
+    setCtx(ctx);
   };
 
   //handle screen touch to mark points
@@ -108,24 +87,17 @@ export default function FrontalDistanceScreen() {
           color="cyan.500"
         >{`Draw point ${drawingPoint}`}</Text>
         {image && (
-          <Pressable
-            style={[
-              styles.container,
-              { width: image.width, height: image.height },
-            ]}
-            onPress={handlePress}
-          >
-            <Canvas
-              style={[
-                styles.canvas,
-                { width: image.width, height: image.height },
-              ]}
-              ref={handleCanvas}
+          <Pressable onPress={handlePress}>
+            <CanvasImage
+              ref={canvasImgRef}
+              canvasRef={canvas}
+              onDraw={handleDraw}
+              img_url={`data:image/jpg;base64,${image.base64}`}
             />
           </Pressable>
         )}
         {drawingPoint !== "two" ? (
-          <Button onPress={handleNext} marginBottom="2">
+          <Button mt={2} onPress={handleNext} marginBottom="2">
             Next Point!
           </Button>
         ) : (
@@ -143,15 +115,3 @@ export default function FrontalDistanceScreen() {
     </Center>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  canvas: {
-    position: "absolute",
-    zIndex: 9,
-  },
-});

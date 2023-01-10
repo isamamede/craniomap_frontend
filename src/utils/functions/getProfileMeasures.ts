@@ -9,7 +9,7 @@ import getAngle from "./getAngle";
 export default function getProfileMeasures(
   predictions: IProfilePredictions
 ): IProfileMeasures {
-  const { gn, sn, cer, g, me, np, t, ls, li } = predictions;
+  const { gn, sn, cer, g, me, np, t, ls, li, cc } = predictions;
   const acf: TMeasure = {
     name: MEASURES_NAMES.ACF,
     type: "angle",
@@ -28,7 +28,7 @@ export default function getProfileMeasures(
   const sml: TMeasure = {
     name: MEASURES_NAMES.SML,
     type: "angle",
-    value: getAngle(li, gn, me),
+    value: getAngle(li, cc, gn),
   };
 
   return {

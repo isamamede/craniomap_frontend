@@ -56,6 +56,7 @@ export type TProfilePredictions = {
   _id: string;
   image: TImage;
   participant_id: string;
+  cc: TPoint;
   g: TPoint;
   sn: TPoint;
   t: TPoint;

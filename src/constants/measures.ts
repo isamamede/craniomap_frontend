@@ -15,7 +15,8 @@ type TPointsName =
   | "tr"
   | "n"
   | "traL"
-  | "traR";
+  | "traR"
+  | "cc";
 
 interface IProfileType {
   name: MEASURES_NAMES;
@@ -64,8 +65,8 @@ export const profileMeasuresMap: IProfileType[] = [
     name: MEASURES_NAMES.SML,
     points: {
       begin: "li",
-      center: "gn",
-      end: "me",
+      center: "cc",
+      end: "gn",
     },
   },
 ];

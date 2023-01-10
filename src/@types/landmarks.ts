@@ -62,6 +62,7 @@ export interface IProfilePredictions {
   st: TPoint;
   ls: TPoint;
   li: TPoint;
+  cc: TPoint;
 }
 export interface IProfileMeasures {
   acf: TMeasure;

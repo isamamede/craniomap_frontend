@@ -1,22 +1,30 @@
 import { useNavigation } from "@react-navigation/native";
-import { Center, HStack, Heading, VStack } from "native-base";
+import { Center, HStack, Heading } from "native-base";
 import { useState } from "react";
+import { CanvasRenderingContext2D } from "react-native-canvas";
+import { TMeasure } from "../../../@types/landmarks";
 import { IconButton } from "../../../components/IconButton";
-import RenderMeasures from "../../../components/RenderMeasures";
+import PredictionCarousel from "../../../components/PredictionsCarousel";
 import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
+import drawProfileMeasures from "../../../utils/functions/drawProfileMeasures";
 
 export default function ProfileMeasuresScreen() {
   const navigation = useNavigation();
-  const { setImage } = useImage();
+  const { setImage, image } = useImage();
   const { profileMeasures, profilePredictions } = useProfilePredictions();
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleHome = () => {
     setImage(null);
     navigation.navigate("Image");
+  };
+
+  const onDraw = (ctx: CanvasRenderingContext2D, item: TMeasure) => {
+    if (profileMeasures && profilePredictions)
+      drawProfileMeasures(ctx, item, profilePredictions);
   };
 
   return (
@@ -30,14 +38,20 @@ export default function ProfileMeasuresScreen() {
           table={tablesNames.profilePred}
         />
       )}
-      <Heading fontSize="xl" p="4" pb="3">
-        Measures obtained
+      <Heading fontSize={"md"} p="4">
+        Measures Obtained
       </Heading>
 
-      <VStack space={4} margin={8}>
-        {profileMeasures && <RenderMeasures measures={profileMeasures} />}
-      </VStack>
-      <HStack justifyContent="space-evenly" width={"50%"}>
+      {profileMeasures && image && (
+        <PredictionCarousel
+          imgUrl={`data:image/jpg;base64,${image.base64}`}
+          measureArray={Object.values(profileMeasures)}
+          onDraw={onDraw}
+          donwloadEnabled={false}
+        />
+      )}
+
+      <HStack py={3} justifyContent="space-evenly" width={"40%"}>
         <IconButton
           borderRadius="md"
           variant="solid"
