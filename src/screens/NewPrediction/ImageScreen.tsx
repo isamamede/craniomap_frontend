@@ -1,9 +1,10 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { manipulateAsync } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import { Button, Center, IconButton, Image, Row, VStack } from "native-base";
+import { Button, Center, Image, Row, VStack } from "native-base";
 import { useEffect } from "react";
+import { IconButton } from "../../components/IconButton";
+import { imgDimensions } from "../../constants/image";
 import { useImage } from "../../contexts/ImageContext";
 
 export default function ImageScreen() {
@@ -33,7 +34,7 @@ export default function ImageScreen() {
     if (result.canceled === false) {
       const manipulatedResult = await manipulateAsync(
         result.assets[0].uri,
-        [{ resize: { width: 300, height: 400 } }],
+        [{ resize: imgDimensions }],
         { base64: true, compress: 1 }
       );
       setImage(manipulatedResult);
@@ -51,7 +52,7 @@ export default function ImageScreen() {
     if (result.canceled === false) {
       const manipulatedResult = await manipulateAsync(
         result.assets[0].uri,
-        [{ resize: { width: 300, height: 400 } }],
+        [{ resize: imgDimensions }],
         { base64: true, compress: 1 }
       );
       setImage(manipulatedResult);
@@ -76,17 +77,16 @@ export default function ImageScreen() {
               borderRadius="md"
               variant="solid"
               onPress={handleTakePicture}
-              size="lg"
-              backgroundColor="purple.500"
+              backgroundColor={"primary.500"}
+              name={"camera"}
               _icon={{
-                as: MaterialIcons,
-                name: "camera",
+                size: "lg",
               }}
               _hover={{
-                bg: "purple.600:alpha.20",
+                bg: "primary.600:alpha.20",
               }}
               _pressed={{
-                bg: "purple.600:alpha.20",
+                bg: "primary.600:alpha.20",
                 _ios: {
                   _icon: {
                     size: "2xl",
@@ -98,17 +98,16 @@ export default function ImageScreen() {
               borderRadius="md"
               variant="solid"
               onPress={handlePickImage}
-              size="lg"
-              backgroundColor="purple.500"
+              backgroundColor={"primary.500"}
+              name={"folder"}
               _icon={{
-                as: MaterialIcons,
-                name: "folder",
+                size: "lg",
               }}
               _hover={{
-                bg: "purple.600:alpha.20",
+                bg: "primary.600:alpha.20",
               }}
               _pressed={{
-                bg: "purple.600:alpha.20",
+                bg: "primary.600:alpha.20",
                 _ios: {
                   _icon: {
                     size: "2xl",
@@ -133,7 +132,7 @@ export default function ImageScreen() {
               />
             </Center>
             <Center>
-              <Button onPress={handleNext} backgroundColor="purple.400">
+              <Button onPress={handleNext} backgroundColor="primary.400">
                 Next
               </Button>
             </Center>

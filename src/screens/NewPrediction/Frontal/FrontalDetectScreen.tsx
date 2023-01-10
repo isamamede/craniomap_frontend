@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
 import { StatusBar } from "expo-status-bar";
-import { Button, Center, HStack, Image, Spinner, VStack } from "native-base";
+import { Button, Center, HStack, Spinner, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import { Alert, Platform, StyleSheet } from "react-native";
 import Canvas, {
@@ -52,8 +52,7 @@ export default function FrontalDetectScreen() {
             : Alert.alert("Predictions recivied successfully!");
         })
         .catch((error) => {
-          console.log(error);
-          Alert.alert(error.message);
+          Alert.alert("Error", error.message);
         });
       setLoading(false);
     }
@@ -97,7 +96,7 @@ export default function FrontalDetectScreen() {
           width="full"
           position={"absolute"}
           style={{ position: "absolute", zIndex: 100 }}
-          backgroundColor="dark.50:alpha.80"
+          backgroundColor="dark.50:alpha.70"
         >
           <Spinner
             accessibilityLabel="Loading predictions"
@@ -119,21 +118,6 @@ export default function FrontalDetectScreen() {
         </Center>
         {image && (
           <Center width={image.width} height={image.height}>
-            <Image
-              source={{
-                uri: image.uri,
-                width: image.width,
-                height: image.height,
-              }}
-              style={[
-                styles.canvas,
-                {
-                  zIndex: 8,
-                  opacity: loading ? 0.2 : 1,
-                },
-              ]}
-              alt="selected-image"
-            />
             <Canvas style={styles.canvas} ref={handleCanvas} />
           </Center>
         )}

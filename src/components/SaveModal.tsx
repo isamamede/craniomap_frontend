@@ -9,9 +9,18 @@ import {
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import uuid from "react-native-uuid";
-import { TFrontalPredictions, TParticipant } from "../@types/database";
+import {
+  TFrontalPredictions,
+  TParticipant,
+  TProfilePredictions,
+} from "../@types/database";
+import {
+  IFrontalMeasures,
+  IFrontalPredictions,
+  IProfileMeasures,
+  IProfilePredictions,
+} from "../@types/landmarks";
 import { tablesNames } from "../constants/database";
-import { useFrontalPredictions } from "../contexts/FrontalPredictionsContext";
 import { useImage } from "../contexts/ImageContext";
 import { uploadToCloudinary } from "../databases/cloudinary";
 import { getRealm } from "../databases/realm";
@@ -19,130 +28,137 @@ import { getRealm } from "../databases/realm";
 interface IProps {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  measures: IFrontalMeasures | IProfileMeasures;
+  predictions: IFrontalPredictions | IProfilePredictions;
+  table: string;
 }
 
-export default function FrontalSaveModal({ setVisible, visible }: IProps) {
+export default function SaveModal({
+  setVisible,
+  visible,
+  measures,
+  predictions,
+  table,
+}: IProps) {
   const { image } = useImage();
-  const { frontalMeasures, frontalPredictions } = useFrontalPredictions();
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [participant_id, setParticipant_id] = useState("none");
   const [participants, setParticipants] = useState<TParticipant[]>([]);
 
   const handleExistingParticipant = async () => {
-    if (image && frontalMeasures && frontalPredictions) {
+    if (image) {
       setLoading(true);
 
-      const uploadedImg = await uploadToCloudinary(image);
+      const db = await getRealm();
+      try {
+        //check if participant exists
+        const participant = db.objectForPrimaryKey<TParticipant>(
+          tablesNames.participant,
+          participant_id
+        );
 
-      if (uploadedImg) {
-        const { public_id, signature, url } = uploadedImg;
+        //only write to the db is particpant exists
+        if (participant) {
+          const uploadedImg = await uploadToCloudinary(image, participant._id);
+          if (uploadedImg) {
+            const { public_id, signature, url } = uploadedImg;
 
-        let predictionsData: Omit<
-          TFrontalPredictions,
-          "participant_id" | "_id" | "created_at"
-        > = {
-          image: {
-            url,
-            public_id,
-            signature,
-          },
-          ...frontalMeasures,
-          ...frontalPredictions,
-        };
+            let predictionsData: Omit<
+              TFrontalPredictions | TProfilePredictions,
+              "participant_id" | "_id" | "created_at"
+            > = {
+              image: {
+                url,
+                public_id,
+                signature,
+              },
+              ...measures,
+              ...predictions,
+            };
 
-        const db = await getRealm();
-        try {
-          //check if participant exists
-          const participant = db.objectForPrimaryKey<TFrontalPredictions>(
-            tablesNames.participant,
-            participant_id
-          );
-
-          //only write to the db is particpant exists
-          if (participant) {
             const saved = db.write(() => {
-              return db.create<TFrontalPredictions>(tablesNames.frontalPred, {
-                ...predictionsData,
-                _id: uuid.v4() as string,
-                participant_id,
-                created_at: new Date(),
-              });
+              return db.create<TFrontalPredictions | TProfilePredictions>(
+                table,
+                {
+                  ...predictionsData,
+                  _id: uuid.v4() as string,
+                  participant_id: participant._id,
+                  created_at: new Date(),
+                }
+              );
             });
             saved
               ? Alert.alert("Data saved successufully!")
               : Alert.alert("Could not save data. Please, check the form.");
-          } else {
-            Alert.alert("Choosen particpant doesn't exist on database.");
           }
-        } catch (err) {
-          Alert.alert("Error", "Could not save data.");
-        } finally {
-          db.close();
-          setLoading(false);
+        } else {
+          Alert.alert("Choosen particpant doesn't exist on database.");
         }
+      } catch {
+        Alert.alert("Error", "Could not save data.");
+      } finally {
+        db.close();
+        setLoading(false);
       }
     }
     setVisible(!visible);
   };
 
   const handleNewParticipant = async () => {
-    if (image && frontalMeasures && frontalPredictions) {
+    if (image) {
       setLoading(true);
 
-      const uploadedImg = await uploadToCloudinary(image).catch(() =>
-        Alert.alert("Error", "Cloud not upload media!")
-      );
-
-      if (uploadedImg) {
-        const { public_id, signature, url } = uploadedImg;
-
-        let predictionsData: Omit<
-          TFrontalPredictions,
-          "participant_id" | "_id" | "created_at"
-        > = {
-          image: {
-            url,
-            public_id,
-            signature,
-          },
-          ...frontalMeasures,
-          ...frontalPredictions,
-        };
-
-        const db = await getRealm();
-        try {
-          //create new particpant
-          const newParticipant = db.write(() => {
-            return db.create<TParticipant>(tablesNames.participant, {
-              name,
-              _id: uuid.v4() as string,
-              created_at: new Date(),
-            });
+      const db = await getRealm();
+      try {
+        //create new particpant
+        const newParticipant = db.write(() => {
+          return db.create<TParticipant>(tablesNames.participant, {
+            name,
+            _id: uuid.v4() as string,
+            created_at: new Date(),
           });
+        });
+
+        const uploadedImg = await uploadToCloudinary(image, newParticipant._id);
+
+        if (uploadedImg) {
+          const { public_id, signature, url } = uploadedImg;
+
+          let predictionsData: Omit<
+            TFrontalPredictions | TProfilePredictions,
+            "participant_id" | "_id" | "created_at"
+          > = {
+            image: {
+              url,
+              public_id,
+              signature,
+            },
+            ...measures,
+            ...predictions,
+          };
 
           //create predictions
           const saved = db.write(() => {
-            const created = db.create<TFrontalPredictions>(
-              tablesNames.frontalPred,
-              {
-                ...predictionsData,
-                _id: uuid.v4() as string,
-                participant_id: newParticipant._id,
-                created_at: new Date(),
-              }
-            );
+            const created = db.create<
+              TFrontalPredictions | TProfilePredictions
+            >(table, {
+              ...predictionsData,
+              _id: uuid.v4() as string,
+              participant_id: newParticipant._id,
+              created_at: new Date(),
+            });
             return created;
           });
           saved
             ? Alert.alert("Data saved successufully!")
             : Alert.alert("Could not save data. Please, check the form.");
-        } catch (err) {
-          Alert.alert("Error", "Could not save data.");
-        } finally {
-          db.close();
-          setLoading(false);
         }
+      } catch {
+        Alert.alert("Error", "Could not save data.");
+      } finally {
+        db.close();
+        setLoading(false);
       }
     }
     setVisible(!visible);
@@ -174,7 +190,6 @@ export default function FrontalSaveModal({ setVisible, visible }: IProps) {
         <Modal.CloseButton />
         <Modal.Header>Do you want to save the data?</Modal.Header>
         <Modal.Body>
-          Click in the button bellow
           <FormControl mt={3} maxW="300" isRequired>
             <FormControl.Label>Choose participant</FormControl.Label>
             <Select

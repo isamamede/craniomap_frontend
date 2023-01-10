@@ -1,6 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabParamList } from "../@types/navigation";
+import { colors } from "../constants/colors";
 import { NewStack } from "./new.routes";
 import { RecordStack } from "./records.routes";
 
@@ -18,7 +19,7 @@ export function TabRoutes() {
     <Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#FF002B",
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: "#B9B9B9",
       }}
       initialRouteName="Record"

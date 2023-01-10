@@ -53,8 +53,7 @@ export default function ProfileDetectScreen() {
             : Alert.alert("Predictions recivied successfully!");
         })
         .catch((error) => {
-          console.log("error", error);
-          Alert.alert(error.message);
+          Alert.alert("Error", error.message);
         });
       setLoading(false);
     }
@@ -103,7 +102,7 @@ export default function ProfileDetectScreen() {
           width="full"
           position={"absolute"}
           style={{ position: "absolute", zIndex: 100 }}
-          backgroundColor="dark.50:alpha.80"
+          backgroundColor="dark.50:alpha.70"
         >
           <Spinner
             accessibilityLabel="Loading predictions"

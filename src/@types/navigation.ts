@@ -1,6 +1,9 @@
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends NewStackParamList {}
+    interface RootParamList
+      extends NewStackParamList,
+        RecordParamList,
+        TabParamList {}
   }
 }
 
@@ -22,7 +25,13 @@ export type NewStackParamList = {
 
 export type RecordParamList = {
   AllParticipants: undefined;
-  Participant: undefined;
-  FrontalPrediction: undefined;
-  ProfilePrediction: undefined;
+  Participant: {
+    _id: string;
+  };
+  FrontalPrediction: {
+    participant_id: string;
+  };
+  ProfilePrediction: {
+    participant_id: string;
+  };
 };

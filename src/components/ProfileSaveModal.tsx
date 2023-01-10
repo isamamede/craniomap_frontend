@@ -90,8 +90,8 @@ export default function ProfileSaveModal({ setVisible, visible }: IProps) {
     if (image && profileMeasures && profilePredictions) {
       setLoading(true);
 
-      const uploadedImg = await uploadToCloudinary(image).catch((err) =>
-        console.log(err)
+      const uploadedImg = await uploadToCloudinary(image).catch(() =>
+        Alert.alert("Error", "Cloud not upload media!")
       );
 
       if (uploadedImg) {

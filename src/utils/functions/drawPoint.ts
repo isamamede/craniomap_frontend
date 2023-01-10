@@ -1,10 +1,11 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
+import { colors } from "../../constants/colors";
 
 export function drawPoint(
   x: number,
   y: number,
   ctx: CanvasRenderingContext2D,
-  color: string = "blue"
+  color: string = colors.primary
 ) {
   ctx.fillStyle = color;
   ctx.beginPath();
