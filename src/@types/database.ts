@@ -22,9 +22,8 @@ export type TImage = {
  * Database schema structure for frontal predictions table
  */
 export type TFrontalPredictions = {
-  _id: string;
-  image: TImage;
   participant_id: string;
+  image: TImage;
   g: TPoint;
   sn: TPoint;
   t: TPoint;
@@ -53,9 +52,8 @@ export type TFrontalPredictions = {
  * Database schema structure for profile predictions table
  */
 export type TProfilePredictions = {
-  _id: string;
-  image: TImage;
   participant_id: string;
+  image: TImage;
   cc: TPoint;
   g: TPoint;
   sn: TPoint;

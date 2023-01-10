@@ -3,9 +3,8 @@ import { tablesNames } from "../../constants/database";
 const ProfilePredictionsSchema = {
   name: tablesNames.profilePred,
   properties: {
-    _id: "string",
-    image: tablesNames.image,
     participant_id: "string",
+    image: tablesNames.image,
     g: tablesNames.point,
     sn: tablesNames.point,
     t: tablesNames.point,
@@ -24,7 +23,7 @@ const ProfilePredictionsSchema = {
     sml: tablesNames.measure,
     created_at: "date",
   },
-  primaryKey: "_id",
+  primaryKey: "participant_id",
 };
 
 export default ProfilePredictionsSchema;

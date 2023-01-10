@@ -33,12 +33,7 @@ export default function PredictionCarousel({
       {...props}
       renderItem={({ item, index }) => (
         <Center key={item.name} width={w}>
-          <ImageDownloader
-            img_url={imgUrl}
-            onDraw={(ctx) => onDraw(ctx, item)}
-            downloadEnabled={donwloadEnabled}
-          />
-          <HStack mt={2} justifyContent={"center"}>
+          <HStack mb={3} justifyContent={"center"}>
             {measureArray.map((_, i) => (
               <CircleIcon
                 key={i}
@@ -50,6 +45,11 @@ export default function PredictionCarousel({
               />
             ))}
           </HStack>
+          <ImageDownloader
+            img_url={imgUrl}
+            onDraw={(ctx) => onDraw(ctx, item)}
+            downloadEnabled={donwloadEnabled}
+          />
         </Center>
       )}
     />

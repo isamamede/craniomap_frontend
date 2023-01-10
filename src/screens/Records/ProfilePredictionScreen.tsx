@@ -1,7 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView } from "native-base";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import { TProfilePredictions } from "../../@types/database";
 import { RecordParamList } from "../../@types/navigation";
@@ -15,7 +14,9 @@ type TProps = NativeStackScreenProps<RecordParamList, "ProfilePrediction">;
 
 export default function ProfilePredictionScreen({ route }: TProps) {
   const { participant_id } = route.params;
-  const [predictions, setPredictions] = useState<TProfilePredictions[]>([]);
+  const [predictions, setPredictions] = useState<TProfilePredictions | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchPredictions = async () => {
@@ -23,12 +24,13 @@ export default function ProfilePredictionScreen({ route }: TProps) {
     const db = await getRealm();
     try {
       const response = db
-        .objects<TProfilePredictions[]>(tablesNames.profilePred)
-        .sorted("created_at")
-        .filtered(`participant_id == '${participant_id}'`)
-        .toJSON();
+        .objectForPrimaryKey<TProfilePredictions>(
+          tablesNames.profilePred,
+          participant_id
+        )
+        ?.toJSON();
 
-      setPredictions(response as TProfilePredictions[]);
+      setPredictions(response as TProfilePredictions);
     } catch {
       Alert.alert("Error", "Could not fetch particpants");
     } finally {
@@ -43,31 +45,29 @@ export default function ProfilePredictionScreen({ route }: TProps) {
     }, [])
   );
 
+  const measureArray = useMemo(() => {
+    if (predictions) {
+      const { acf, acm, anl, sml } = predictions;
+      return [acf, acm, anl, sml];
+    }
+    return [];
+  }, [predictions]);
+
   return loading ? (
     <Loading />
   ) : (
-    <ScrollView
-      pagingEnabled={true}
-      snapToAlignment="center"
-      showsVerticalScrollIndicator={false}
-    >
-      {predictions.map((prediction) => {
-        const { acf, acm, anl, sml } = prediction;
-        const measureArray = [acf, acm, anl, sml];
-        return (
-          <PredictionCarousel
-            h={"full"}
-            py={10}
-            key={prediction._id}
-            measureArray={measureArray}
-            imgUrl={prediction.image.url}
-            donwloadEnabled={true}
-            onDraw={(ctx, item) => {
-              drawProfileMeasures(ctx, item, prediction);
-            }}
-          />
-        );
-      })}
-    </ScrollView>
+    <>
+      {predictions && (
+        <PredictionCarousel
+          key={predictions.participant_id}
+          measureArray={measureArray}
+          imgUrl={predictions.image.url}
+          donwloadEnabled={true}
+          onDraw={(ctx, item) => {
+            drawProfileMeasures(ctx, item, predictions);
+          }}
+        />
+      )}
+    </>
   );
 }

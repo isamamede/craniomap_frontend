@@ -82,7 +82,6 @@ export default function SaveModal({
                 table,
                 {
                   ...predictionsData,
-                  _id: uuid.v4() as string,
                   participant_id: participant._id,
                   created_at: new Date(),
                 }
@@ -144,7 +143,6 @@ export default function SaveModal({
               TFrontalPredictions | TProfilePredictions
             >(table, {
               ...predictionsData,
-              _id: uuid.v4() as string,
               participant_id: newParticipant._id,
               created_at: new Date(),
             });

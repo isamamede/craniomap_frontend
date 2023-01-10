@@ -1,8 +1,9 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import { TFrontalPredictions } from "../../@types/database";
+import { TMeasure } from "../../@types/landmarks";
 import { RecordParamList } from "../../@types/navigation";
 import Loading from "../../components/Loading";
 import PredictionCarousel from "../../components/PredictionsCarousel";
@@ -14,7 +15,9 @@ type TProps = NativeStackScreenProps<RecordParamList, "FrontalPrediction">;
 
 export default function FrontalPredictionScreen({ route }: TProps) {
   const { participant_id } = route.params;
-  const [predictions, setPredictions] = useState<TFrontalPredictions[]>([]);
+  const [predictions, setPredictions] = useState<TFrontalPredictions | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchPredictions = async () => {
@@ -22,12 +25,13 @@ export default function FrontalPredictionScreen({ route }: TProps) {
     const db = await getRealm();
     try {
       const response = db
-        .objects<TFrontalPredictions[]>(tablesNames.frontalPred)
-        .sorted("created_at")
-        .filtered(`participant_id == '${participant_id}'`)
-        .toJSON();
+        .objectForPrimaryKey<TFrontalPredictions>(
+          tablesNames.frontalPred,
+          participant_id
+        )
+        ?.toJSON();
 
-      setPredictions(response as TFrontalPredictions[]);
+      setPredictions(response as TFrontalPredictions);
     } catch {
       Alert.alert("Error", "Could not fetch particpants");
     } finally {
@@ -42,24 +46,28 @@ export default function FrontalPredictionScreen({ route }: TProps) {
     }, [])
   );
 
+  const measureArray: TMeasure[] = useMemo(() => {
+    if (predictions) {
+      const { cls, cli, af, ats, atm, ati, lf } = predictions;
+      return [cls, cli, af, ats, atm, ati, lf];
+    }
+    return [];
+  }, [predictions]);
+
   return loading ? (
     <Loading />
   ) : (
     <>
-      {predictions.map((prediction) => {
-        const { cls, cli, af, ats, atm, ati, lf } = prediction;
-        const measureArray = [cls, cli, af, ats, atm, ati, lf];
-        return (
-          <PredictionCarousel
-            key={prediction._id}
-            measureArray={measureArray}
-            imgUrl={prediction.image.url}
-            onDraw={(ctx, item) => {
-              drawFrontalMeasures(ctx, item, prediction);
-            }}
-          />
-        );
-      })}
+      {predictions && (
+        <PredictionCarousel
+          key={predictions.participant_id}
+          measureArray={measureArray}
+          imgUrl={predictions.image.url}
+          onDraw={(ctx, item) => {
+            drawFrontalMeasures(ctx, item, predictions);
+          }}
+        />
+      )}
     </>
   );
 }
