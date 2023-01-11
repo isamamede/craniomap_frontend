@@ -3,7 +3,12 @@ import { Box, HStack, Heading, Spacer } from "native-base";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
-import { TParticipant } from "../../@types/database";
+import {
+  TFrontalPredictions,
+  TParticipant,
+  TProfilePredictions,
+} from "../../@types/database";
+import { TXLSXData } from "../../@types/xlsx";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { IconButton } from "../../components/IconButton";
 import Loading from "../../components/Loading";
@@ -14,6 +19,9 @@ import {
   deleteCloudinaryImageByTag,
 } from "../../databases/cloudinary";
 import { getRealm } from "../../databases/realm";
+import getFrontalMeasuresFromDB from "../../utils/functions/getFrontalMeasuresFromDB";
+import getProfileMeasuresFromDB from "../../utils/functions/getProfileMeasuresFromDB";
+import writeToXLSX from "../../utils/functions/writeToXLSX";
 
 export default function AllParticipantsScreen() {
   const navigation = useNavigation();
@@ -96,6 +104,41 @@ export default function AllParticipantsScreen() {
     }
   };
 
+  const handleDownloadAll = async () => {
+    const db = await getRealm();
+    try {
+      const data: TXLSXData[] = participants.map((participant) => {
+        const frontal = db
+          .objectForPrimaryKey<TFrontalPredictions>(
+            tablesNames.frontalPred,
+            participant._id
+          )
+          ?.toJSON();
+        const profile = db
+          .objectForPrimaryKey<TProfilePredictions>(
+            tablesNames.profilePred,
+            participant._id
+          )
+          ?.toJSON();
+        return {
+          participant,
+          frontalMeasures: frontal
+            ? getFrontalMeasuresFromDB(frontal as TFrontalPredictions).object
+            : undefined,
+          profileMeasures: profile
+            ? getProfileMeasuresFromDB(profile as TProfilePredictions).object
+            : undefined,
+        };
+      });
+
+      await writeToXLSX(data);
+    } catch (err) {
+      Alert.alert("Error", JSON.stringify(err));
+    } finally {
+      db.close();
+    }
+  };
+
   const handlePress = (_id: string) => {
     navigation.navigate("Participant", {
       _id,
@@ -117,6 +160,21 @@ export default function AllParticipantsScreen() {
           Particpants
         </Heading>
         <Spacer />
+        <IconButton
+          name={"download"}
+          variant={"ghost"}
+          _icon={{
+            color: "coolGray.800",
+            size: "sm",
+          }}
+          _hover={{
+            color: "primary.500:alpha:80",
+          }}
+          _pressed={{
+            color: "primary.500:alpha:90",
+          }}
+          onPress={handleDownloadAll}
+        />
         <IconButton
           name={"refresh"}
           variant={"ghost"}

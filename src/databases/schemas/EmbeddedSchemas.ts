@@ -25,6 +25,6 @@ export const MeasureSchema = {
   properties: {
     name: "string",
     type: "string",
-    value: "int",
+    value: "float",
   },
 };

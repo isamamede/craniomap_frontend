@@ -19,4 +19,5 @@ export const getRealm = async () =>
       PointSchema,
       MeasureSchema,
     ],
+    schemaVersion: 2,
   });

@@ -10,6 +10,7 @@ import { tablesNames } from "../../../constants/database";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 import drawFrontalMeasures from "../../../utils/functions/drawFrontalMeasures";
+import getFrontalMeasuresFromDB from "../../../utils/functions/getFrontalMeasuresFromDB";
 
 export default function FrontalMeasuresScreen() {
   const navigation = useNavigation();
@@ -19,8 +20,7 @@ export default function FrontalMeasuresScreen() {
 
   const measuresArray = useMemo(() => {
     if (frontalMeasures) {
-      const { cls, cli, af, ats, atm, ati, lf } = frontalMeasures;
-      return [cls, cli, af, ats, atm, ati, lf];
+      return getFrontalMeasuresFromDB(frontalMeasures).arrayWithoutP;
     }
     return [];
   }, [frontalMeasures]);

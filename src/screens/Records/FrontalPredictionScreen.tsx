@@ -10,6 +10,7 @@ import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
 import drawFrontalMeasures from "../../utils/functions/drawFrontalMeasures";
+import getFrontalMeasuresFromDB from "../../utils/functions/getFrontalMeasuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "FrontalPrediction">;
 
@@ -48,8 +49,7 @@ export default function FrontalPredictionScreen({ route }: TProps) {
 
   const measureArray: TMeasure[] = useMemo(() => {
     if (predictions) {
-      const { cls, cli, af, ats, atm, ati, lf } = predictions;
-      return [cls, cli, af, ats, atm, ati, lf];
+      return getFrontalMeasuresFromDB(predictions).arrayWithoutP;
     }
     return [];
   }, [predictions]);

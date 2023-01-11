@@ -9,6 +9,7 @@ import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
 import drawProfileMeasures from "../../utils/functions/drawProfileMeasures";
+import getProfileMeasuresFromDB from "../../utils/functions/getProfileMeasuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "ProfilePrediction">;
 
@@ -47,8 +48,7 @@ export default function ProfilePredictionScreen({ route }: TProps) {
 
   const measureArray = useMemo(() => {
     if (predictions) {
-      const { acf, acm, anl, sml } = predictions;
-      return [acf, acm, anl, sml];
+      return getProfileMeasuresFromDB(predictions).array;
     }
     return [];
   }, [predictions]);
