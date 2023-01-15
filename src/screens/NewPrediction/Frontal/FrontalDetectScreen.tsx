@@ -7,7 +7,7 @@ import { Alert, Platform } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IFrontalPredictions } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
-import { SERVER_URL } from "../../../constants/server";
+import { SERVER_URL } from "../../../config";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
 import drawFront from "../../../utils/functions/drawFront";
@@ -61,7 +61,7 @@ export default function FrontalDetectScreen() {
   const handleDone = () => {
     if (predictions) {
       setFrontalPredictions(predictions);
-      navigation.navigate("FrontalMeasures");
+      navigation.navigate("ChangeTrPointScreen");
     }
   };
 

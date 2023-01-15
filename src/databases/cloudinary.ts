@@ -4,7 +4,7 @@ import {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   CLOUDINARY_UPLOAD_PRESET,
-} from "../constants/cloudinary";
+} from "../config";
 import getParamString from "../utils/functions/getParamString";
 
 export const getCloudinaryUrl = (

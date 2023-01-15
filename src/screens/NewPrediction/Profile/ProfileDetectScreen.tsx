@@ -10,7 +10,7 @@ import {
   TProfileResponseBody,
 } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
-import { SERVER_URL } from "../../../constants/server";
+import { COMPREFACE_API_KEY, SERVER_URL } from "../../../config";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 import drawProfile from "../../../utils/functions/drawProfile";
@@ -38,6 +38,9 @@ export default function ProfileDetectScreen() {
         uploadType: FileSystem.FileSystemUploadType.MULTIPART,
         fieldName: "image",
         httpMethod: "POST",
+        parameters: {
+          compreface_api_key: COMPREFACE_API_KEY,
+        },
       })
         .then((response) => {
           const body: TProfileResponseBody = JSON.parse(response.body);

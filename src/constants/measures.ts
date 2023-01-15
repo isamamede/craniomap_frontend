@@ -1,40 +1,8 @@
-import { MEASURES_NAMES } from "../@types/landmarks";
-
-export type TProfileMeasureName = "acf" | "acm" | "anl" | "sml";
-type TPointsName =
-  | "gn"
-  | "sn"
-  | "cer"
-  | "g"
-  | "me"
-  | "np"
-  | "t"
-  | "ls"
-  | "li"
-  | "st"
-  | "tr"
-  | "n"
-  | "traL"
-  | "traR"
-  | "cc";
-
-interface IProfileType {
-  name: MEASURES_NAMES;
-  points: {
-    begin: TPointsName;
-    center: TPointsName;
-    end: TPointsName;
-  };
-}
-
-interface IFrontalType {
-  name: MEASURES_NAMES;
-  points: {
-    begin: TPointsName;
-
-    end: TPointsName;
-  };
-}
+import {
+  IFrontalType,
+  IProfileType,
+  MEASURES_NAMES,
+} from "../@types/landmarks";
 
 export const profileMeasuresMap: IProfileType[] = [
   {

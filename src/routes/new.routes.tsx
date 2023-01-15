@@ -3,6 +3,7 @@ import { NewStackParamList } from "../@types/navigation";
 import { FrontalPredictionsProvider } from "../contexts/FrontalPredictionsContext";
 import { ImageProvider } from "../contexts/ImageContext";
 import { ProfilePredictionsProvider } from "../contexts/ProfilePredictionsContext";
+import ChangeTrPointScreen from "../screens/NewPrediction/Frontal/ChangeTrPointScreen";
 import FrontalDetectScreen from "../screens/NewPrediction/Frontal/FrontalDetectScreen";
 import FrontalDistanceScreen from "../screens/NewPrediction/Frontal/FrontalDistanceScreen";
 import FrontalMeasureScreen from "../screens/NewPrediction/Frontal/FrontalMeasuresScreen";
@@ -29,6 +30,10 @@ export function NewStack() {
 
             <Screen name="FrontalDetect" component={FrontalDetectScreen} />
             <Screen name="FrontalDistance" component={FrontalDistanceScreen} />
+            <Screen
+              name="ChangeTrPointScreen"
+              component={ChangeTrPointScreen}
+            />
             <Screen name="FrontalMeasures" component={FrontalMeasureScreen} />
 
             <Screen name="ProfileDetect" component={ProfileDetectScreen} />

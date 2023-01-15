@@ -5,18 +5,17 @@ import { useRef, useState } from "react";
 import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import CanvasImage from "./CanvasImage";
-
-type TProps = {
+interface IProps {
   img_url: string;
   onDraw: (ctx: CanvasRenderingContext2D) => void;
   downloadEnabled?: boolean;
-};
+}
 
 export default function ImageDownloader({
   img_url,
   onDraw,
   downloadEnabled = true,
-}: TProps) {
+}: IProps) {
   const [url, setUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const canvas = useRef<Canvas>(null);

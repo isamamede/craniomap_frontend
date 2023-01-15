@@ -70,3 +70,39 @@ export interface IProfileMeasures {
   anl: TMeasure;
   sml: TMeasure;
 }
+
+export type TProfileMeasureName = "acf" | "acm" | "anl" | "sml";
+export type TPointsName =
+  | "gn"
+  | "sn"
+  | "cer"
+  | "g"
+  | "me"
+  | "np"
+  | "t"
+  | "ls"
+  | "li"
+  | "st"
+  | "tr"
+  | "n"
+  | "traL"
+  | "traR"
+  | "cc";
+
+export interface IProfileType {
+  name: MEASURES_NAMES;
+  points: {
+    begin: TPointsName;
+    center: TPointsName;
+    end: TPointsName;
+  };
+}
+
+export interface IFrontalType {
+  name: MEASURES_NAMES;
+  points: {
+    begin: TPointsName;
+
+    end: TPointsName;
+  };
+}
