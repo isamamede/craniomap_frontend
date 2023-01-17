@@ -1,19 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import * as FileSystem from "expo-file-system";
 import { StatusBar } from "expo-status-bar";
 import { Button, Center, HStack, Spinner, VStack } from "native-base";
 import { useRef, useState } from "react";
 import { Alert, Platform, StyleSheet } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
-import {
-  IServerProfilePredictions,
-  TProfileResponseBody,
-} from "../../../@types/server";
+import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
-import { COMPREFACE_API_KEY, SERVER_URL } from "../../../config";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 import drawProfile from "../../../utils/functions/drawProfile";
+import getServerProfilePredictions from "../../../utils/functions/server/getServerProfilePredictions";
 
 export default function ProfileDetectScreen() {
   const navigation = useNavigation();
@@ -30,28 +26,18 @@ export default function ProfileDetectScreen() {
   };
 
   const handleDetect = async () => {
-    if (image) {
+    if (image && image.base64) {
       setLoading(true);
 
-      //load tensorflow predictions
-      await FileSystem.uploadAsync(`${SERVER_URL}/profile`, image.uri, {
-        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-        fieldName: "image",
-        httpMethod: "POST",
-        parameters: {
-          compreface_api_key: COMPREFACE_API_KEY,
-        },
-      })
+      await getServerProfilePredictions(image.base64)
         .then((response) => {
-          const body: TProfileResponseBody = JSON.parse(response.body);
-          const reciviedPredictions = body["predictions"];
-          setPredictions(reciviedPredictions);
-          !body["predictions"]
+          setPredictions(response);
+          !response
             ? Alert.alert("No predictions recivied :(")
             : Alert.alert("Predictions recivied successfully!");
         })
         .catch((error) => {
-          Alert.alert("Error", error.message);
+          Alert.alert("Error", error);
         });
       setLoading(false);
     }

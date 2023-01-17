@@ -11,10 +11,11 @@ export const CLOUDINARY_URL =
   process.env.CLOUDINARY_URL ||
   "cloudinary://545281651425943:M-5XFjQbXR0BoHuXSkZ59gggTx8@pic-app";
 
-const port = "4000";
-let ip: string = "192.168.0.17";
+const ip: string = "192.168.0.17";
 
-export const SERVER_URL = process.env.SERVER_URL || `http://${ip}:${port}`;
+export const SERVER_URL = process.env.SERVER_URL || `http://${ip}:4000`;
+
+export const COMPREFACE_URL = `http://${ip}:8000`;
 
 export const COMPREFACE_API_KEY =
-  process.env.COMPREFACE_API_KEY || "5ee1d75d-de52-4fae-ba0a-252d0bf2c065";
+  process.env.COMPREFACE_API_KEY || "f8938c56-8fe3-49f1-9abf-2d54a966c903";
