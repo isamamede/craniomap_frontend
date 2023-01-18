@@ -1,5 +1,5 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { colors } from "../../constants/colors";
+import { colors } from "../../constants/theme";
 
 export default function writeToCanvas(
   text: string,

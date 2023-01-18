@@ -1,5 +1,5 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { colors } from "../../constants/colors";
+import { colors } from "../../constants/theme";
 
 export function drawPoint(
   x: number,

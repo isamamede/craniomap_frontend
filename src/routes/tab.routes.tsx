@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabParamList } from "../@types/navigation";
-import { colors } from "../constants/colors";
+import { colors } from "../constants/theme";
 import { NewStack } from "./new.routes";
 import { RecordStack } from "./records.routes";
 

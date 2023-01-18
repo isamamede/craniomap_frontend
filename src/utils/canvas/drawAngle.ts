@@ -1,6 +1,6 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
 import { TPoint } from "../../@types/landmarks";
-import { colors } from "../../constants/colors";
+import { colors } from "../../constants/theme";
 
 export default function drawAngle(
   beginPoint: TPoint,
