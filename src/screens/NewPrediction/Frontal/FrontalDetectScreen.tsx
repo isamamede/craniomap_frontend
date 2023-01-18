@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import * as FileSystem from "expo-file-system";
 import { StatusBar } from "expo-status-bar";
 import { Button, Center, HStack, Spinner, VStack } from "native-base";
 import { useRef, useState } from "react";
@@ -7,10 +6,10 @@ import { Alert, Platform } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IFrontalPredictions } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
-import { SERVER_URL } from "../../../config";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
-import drawFront from "../../../utils/functions/drawFront";
+import drawFront from "../../../utils/canvas/drawFront";
+import getServerFrontal from "../../../utils/server/getServerFrontal";
 
 export default function FrontalDetectScreen() {
   const navigation = useNavigation();
@@ -27,23 +26,19 @@ export default function FrontalDetectScreen() {
     if (image) {
       setLoading(true);
 
-      //load tensorflow predictions
-      await FileSystem.uploadAsync(`${SERVER_URL}/front`, image.uri, {
-        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-        fieldName: "image",
-        httpMethod: "POST",
-      })
+      await getServerFrontal(image.uri)
         .then((response) => {
-          const body = JSON.parse(response.body);
-          const reciviedPredictions = body["predictions"];
-          setPredictions(reciviedPredictions);
-          !body["predictions"]
-            ? Alert.alert("No predictions recivied :(")
-            : Alert.alert("Predictions recivied successfully!");
+          if (response) {
+            setPredictions(response);
+            Alert.alert("Predictions recivied successfully!");
+          } else {
+            Alert.alert("No predictions recivied :(");
+          }
         })
         .catch((error) => {
           Alert.alert("Error", error.message);
         });
+
       setLoading(false);
     }
   };

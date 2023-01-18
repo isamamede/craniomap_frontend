@@ -1,5 +1,5 @@
 const sn = 80;
-const t = 86;
+const t = 84;
 const n = 72;
 const g = [50, 102];
 const st = 60;
@@ -8,7 +8,7 @@ const gn = [8, 24];
 const ls = 71;
 const li = 53;
 
-export const landmarksIfIndex = {
+export const profileIndexObj = {
   g,
   sn,
   t,

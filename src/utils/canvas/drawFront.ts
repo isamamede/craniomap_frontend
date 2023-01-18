@@ -1,12 +1,11 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
-
-import { IProfilePredictions } from "../../@types/landmarks";
-import { IServerProfilePredictions } from "../../@types/server";
+import { IFrontalPredictions } from "../../@types/landmarks";
 import { drawPoint } from "./drawPoint";
 import writeToCanvas from "./writeToCanvas";
 
-export default function drawProfile(
-  predictions: IServerProfilePredictions | IProfilePredictions,
+// Drawing Mesh
+export default function drawFront(
+  predictions: IFrontalPredictions,
   ctx: CanvasRenderingContext2D
 ) {
   Object.keys(predictions).forEach((key) => {

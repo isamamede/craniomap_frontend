@@ -1,6 +1,5 @@
-import { Box, HStack, Heading, Spacer } from "native-base";
-
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { Box, HStack, Heading, Spacer } from "native-base";
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 import {
@@ -19,9 +18,9 @@ import {
   deleteCloudinaryImageByTag,
 } from "../../databases/cloudinary";
 import { getRealm } from "../../databases/realm";
-import getFrontalMeasuresFromDB from "../../utils/functions/getFrontalMeasuresFromDB";
-import getProfileMeasuresFromDB from "../../utils/functions/getProfileMeasuresFromDB";
-import writeToXLSX from "../../utils/functions/writeToXLSX";
+import getFrontalMeasuresFromDB from "../../utils/math/getFrontalMeasuresFromDB";
+import getProfileMeasuresFromDB from "../../utils/math/getProfileMeasuresFromDB";
+import writeToXLSX from "../../utils/writeToXLSX";
 
 export default function AllParticipantsScreen() {
   const navigation = useNavigation();

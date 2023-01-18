@@ -8,8 +8,8 @@ import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
-import drawProfile from "../../../utils/functions/drawProfile";
-import getServerProfilePredictions from "../../../utils/functions/server/getServerProfilePredictions";
+import drawProfile from "../../../utils/canvas/drawProfile";
+import getServerProfilePredictions from "../../../utils/server/getServerProfilePredictions";
 
 export default function ProfileDetectScreen() {
   const navigation = useNavigation();

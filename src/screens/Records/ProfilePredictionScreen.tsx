@@ -8,8 +8,8 @@ import Loading from "../../components/Loading";
 import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
-import drawProfileMeasures from "../../utils/functions/drawProfileMeasures";
-import getProfileMeasuresFromDB from "../../utils/functions/getProfileMeasuresFromDB";
+import drawProfileMeasures from "../../utils/canvas/drawProfileMeasures";
+import getProfileMeasuresFromDB from "../../utils/math/getProfileMeasuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "ProfilePrediction">;
 

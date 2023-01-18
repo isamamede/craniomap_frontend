@@ -12,8 +12,8 @@ import {
   IFrontalPredictions,
   TPoint,
 } from "../@types/landmarks";
-import { getDistance } from "../utils/functions/getDistance";
-import getFrontalMeasures from "../utils/functions/getFrontalMeasures";
+import { getDistance } from "../utils/math/getDistance";
+import getFrontalMeasures from "../utils/math/getFrontalMeasures";
 
 type TPoints = { point1: TPoint; point2: TPoint };
 

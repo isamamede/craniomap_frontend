@@ -1,8 +1,8 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import * as XLSX from "xlsx";
-import { TMeasure } from "../../@types/landmarks";
-import { TXLSXData } from "../../@types/xlsx";
+import { TMeasure } from "../@types/landmarks";
+import { TXLSXData } from "../@types/xlsx";
 
 export default async function writeToXLSX(data: TXLSXData[]): Promise<void> {
   const parsedData = data.map(

@@ -15,7 +15,7 @@ import { TPoint } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
-import { drawPoint } from "../../../utils/functions/drawPoint";
+import { drawPoint } from "../../../utils/canvas/drawPoint";
 
 type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;
 

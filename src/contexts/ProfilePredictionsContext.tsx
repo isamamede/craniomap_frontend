@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { IProfileMeasures, IProfilePredictions } from "../@types/landmarks";
-import getProfileMeasures from "../utils/functions/getProfileMeasures";
+import getProfileMeasures from "../utils/math/getProfileMeasures";
 
 type TProfilePredictions = {
   profilePredictions: IProfilePredictions | null;

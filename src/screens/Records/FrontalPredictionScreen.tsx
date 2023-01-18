@@ -9,8 +9,8 @@ import Loading from "../../components/Loading";
 import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
-import drawFrontalMeasures from "../../utils/functions/drawFrontalMeasures";
-import getFrontalMeasuresFromDB from "../../utils/functions/getFrontalMeasuresFromDB";
+import drawFrontalMeasures from "../../utils/canvas/drawFrontalMeasures";
+import getFrontalMeasuresFromDB from "../../utils/math/getFrontalMeasuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "FrontalPrediction">;
 

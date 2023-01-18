@@ -9,7 +9,7 @@ import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
-import drawProfileMeasures from "../../../utils/functions/drawProfileMeasures";
+import drawProfileMeasures from "../../../utils/canvas/drawProfileMeasures";
 
 export default function ProfileMeasuresScreen() {
   const navigation = useNavigation();

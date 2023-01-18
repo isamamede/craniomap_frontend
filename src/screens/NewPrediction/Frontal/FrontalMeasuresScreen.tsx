@@ -9,8 +9,8 @@ import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
-import drawFrontalMeasures from "../../../utils/functions/drawFrontalMeasures";
-import getFrontalMeasuresFromDB from "../../../utils/functions/getFrontalMeasuresFromDB";
+import drawFrontalMeasures from "../../../utils/canvas/drawFrontalMeasures";
+import getFrontalMeasuresFromDB from "../../../utils/math/getFrontalMeasuresFromDB";
 
 export default function FrontalMeasuresScreen() {
   const navigation = useNavigation();

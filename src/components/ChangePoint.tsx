@@ -4,7 +4,7 @@ import { GestureResponderEvent } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { TPoint } from "../@types/landmarks";
 import { useImage } from "../contexts/ImageContext";
-import { drawPoint } from "../utils/functions/drawPoint";
+import { drawPoint } from "../utils/canvas/drawPoint";
 import CanvasImage from "./CanvasImage";
 
 type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;

@@ -1,6 +1,9 @@
-import { IServerProfilePredictions } from "../../../@types/server";
-import { COMPREFACE_API_KEY, COMPREFACE_URL } from "../../../config";
-import { landmarksIfIndex, profileIndexArray } from "../../../constants/server";
+import { IServerProfilePredictions } from "../../@types/server";
+import { COMPREFACE_API_KEY, COMPREFACE_URL } from "../../config";
+import {
+  profileIndexArray,
+  profileIndexObj,
+} from "../../constants/server/profile";
 
 type TOptions = {
   limit: number;
@@ -26,7 +29,7 @@ function parseProfilePredictions(
     predictions.forEach((prediction, i) => {
       const [x, y] = prediction;
       if (profileIndexArray.includes(i)) {
-        Object.entries(landmarksIfIndex).forEach((entry) => {
+        Object.entries(profileIndexObj).forEach((entry) => {
           const [key, value] = entry;
           if (Array.isArray(value)) {
             if (value.includes(i)) {
