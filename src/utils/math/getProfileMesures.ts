@@ -13,7 +13,7 @@ export default function getProfileMesures(
   const acf: TMesure = {
     name: MESURES_NAMES.ACF,
     type: "angle",
-    value: getAngle(g, sn, gn),
+    value: getAngle(g, sn, gn, true),
   };
   const acm: TMesure = {
     name: MESURES_NAMES.ACM,

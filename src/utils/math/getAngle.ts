@@ -11,7 +11,7 @@ export default function getAngle(
   A: TPoint,
   B: TPoint,
   C: TPoint,
-  max180: boolean = true
+  reverse: boolean = false
 ) {
   const radians =
     Math.atan2(C.y - B.y, C.x - B.x) - Math.atan2(A.y - B.y, A.x - B.x);
@@ -22,7 +22,7 @@ export default function getAngle(
   let degrees =
     ((radians >= 0 ? radians : 2 * Math.PI + radians) * 360) / (2 * Math.PI);
 
-  degrees = degrees > 180 && max180 === true ? 360 - degrees : degrees;
+  degrees = reverse === true ? 360 - degrees : degrees;
 
   return degrees;
 }

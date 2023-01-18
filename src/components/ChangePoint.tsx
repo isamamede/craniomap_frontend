@@ -51,6 +51,7 @@ export default function ChangePoint({ setPoint, point, pointName }: IProps) {
           <ReactNativeZoomableView
             maxZoom={15}
             minZoom={1}
+            initialZoom={1}
             contentWidth={image.width}
             contentHeight={image.height}
           >
