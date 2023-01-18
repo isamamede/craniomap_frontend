@@ -1,4 +1,4 @@
-package com.facemeasures;
+package com.medtown.facemesures;
 
 import android.os.Build;
 import android.os.Bundle;

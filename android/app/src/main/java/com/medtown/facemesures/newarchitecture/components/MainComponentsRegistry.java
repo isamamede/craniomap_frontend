@@ -1,4 +1,4 @@
-package com.facemeasures.newarchitecture.components;
+package com.medtown.facemesures.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

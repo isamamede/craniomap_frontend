@@ -1,13 +1,21 @@
 {
   "expo": {
-    "name": "face-mesures",
-    "slug": "face-mesures",
+    "name": "FaceMesures",
+    "slug": "FaceMesures",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
     "icon": "./src/assets/icon.png",
-    "splash": { "image": "./src/assets/splash.png" },
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FF002B"
+    },
     "android": {
-      "package": "com.medtown.facemesures"
+      "package": "com.medtown.facemesures",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/icon.png",
+        "backgroundColor": "#FF002B"
+      }
     },
     "plugins": [
       [
