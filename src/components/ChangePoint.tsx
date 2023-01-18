@@ -1,4 +1,5 @@
-import { Pressable, Text, VStack } from "native-base";
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
+import { Pressable, Text, VStack, View } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { GestureResponderEvent } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
@@ -46,14 +47,23 @@ export default function ChangePoint({ setPoint, point, pointName }: IProps) {
     <VStack space={1}>
       <Text fontSize="lg" color="cyan.500">{`Draw point ${pointName}`}</Text>
       {image && (
-        <Pressable onPress={handlePress}>
-          <CanvasImage
-            ref={canvasImgRef}
-            canvasRef={canvas}
-            onDraw={onDraw}
-            img_url={`data:image/jpg;base64,${image.base64}`}
-          />
-        </Pressable>
+        <View height={image.height} width={image.width}>
+          <ReactNativeZoomableView
+            maxZoom={15}
+            minZoom={1}
+            contentWidth={image.width}
+            contentHeight={image.height}
+          >
+            <Pressable onPress={handlePress}>
+              <CanvasImage
+                ref={canvasImgRef}
+                canvasRef={canvas}
+                onDraw={onDraw}
+                img_url={`data:image/jpg;base64,${image.base64}`}
+              />
+            </Pressable>
+          </ReactNativeZoomableView>
+        </View>
       )}
     </VStack>
   );
