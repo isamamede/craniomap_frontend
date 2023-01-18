@@ -1,65 +1,65 @@
 import {
-  IFrontalMeasures,
+  IFrontalMesures,
   IFrontalPredictions,
-  MEASURES_NAMES,
-  TMeasure,
+  MESURES_NAMES,
+  TMesure,
 } from "../../@types/landmarks";
 import { getDistanceInCM } from "./getDistance";
 
-export default function getFrontalMeasures(
+export default function getFrontalMesures(
   predictions: IFrontalPredictions,
   cm: number,
   cmInPx: number
-): IFrontalMeasures {
+): IFrontalMesures {
   const { gn, n, sn, st, tr, traL, traR } = predictions;
-  const cls: TMeasure = {
+  const cls: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.CLS,
+    name: MESURES_NAMES.CLS,
     value: getDistanceInCM(sn, st, cm, cmInPx),
   };
-  const cli: TMeasure = {
+  const cli: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.CLI,
+    name: MESURES_NAMES.CLI,
     value: getDistanceInCM(st, gn, cm, cmInPx),
   };
-  const pl: TMeasure = {
+  const pl: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.PL,
+    name: MESURES_NAMES.PL,
     value: cls.value / cli.value,
   };
-  const af: TMeasure = {
+  const af: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.AF,
+    name: MESURES_NAMES.AF,
     value: getDistanceInCM(tr, gn, cm, cmInPx),
   };
-  const ats: TMeasure = {
+  const ats: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.ATS,
+    name: MESURES_NAMES.ATS,
     value: getDistanceInCM(tr, n, cm, cmInPx),
   };
-  const atm: TMeasure = {
+  const atm: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.ATM,
+    name: MESURES_NAMES.ATM,
     value: getDistanceInCM(n, sn, cm, cmInPx),
   };
-  const ati: TMeasure = {
+  const ati: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.ATI,
+    name: MESURES_NAMES.ATI,
     value: getDistanceInCM(sn, gn, cm, cmInPx),
   };
-  const lf: TMeasure = {
+  const lf: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.LF,
+    name: MESURES_NAMES.LF,
     value: getDistanceInCM(traL, traR, cm, cmInPx),
   };
-  const pf: TMeasure = {
+  const pf: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.PF,
+    name: MESURES_NAMES.PF,
     value: af.value / lf.value,
   };
-  const ptmi: TMeasure = {
+  const ptmi: TMesure = {
     type: "distance",
-    name: MEASURES_NAMES.PTMI,
+    name: MESURES_NAMES.PTMI,
     value: atm.value / ati.value,
   };
 

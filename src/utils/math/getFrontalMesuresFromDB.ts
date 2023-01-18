@@ -1,13 +1,13 @@
 import { TFrontalPredictions } from "../../@types/database";
-import { IFrontalMeasures, TMeasure } from "../../@types/landmarks";
+import { IFrontalMesures, TMesure } from "../../@types/landmarks";
 
-export default function getFrontalMeasuresFromDB(
-  predictions: TFrontalPredictions | IFrontalMeasures
+export default function getFrontalMesuresFromDB(
+  predictions: TFrontalPredictions | IFrontalMesures
 ): {
-  object: IFrontalMeasures;
-  objectWithoutP: Omit<IFrontalMeasures, "pf" | "pl" | "ptmi">;
-  array: TMeasure[];
-  arrayWithoutP: TMeasure[];
+  object: IFrontalMesures;
+  objectWithoutP: Omit<IFrontalMesures, "pf" | "pl" | "ptmi">;
+  array: TMesure[];
+  arrayWithoutP: TMesure[];
 } {
   const { cls, cli, af, ats, atm, ati, lf, pf, pl, ptmi } = predictions;
 

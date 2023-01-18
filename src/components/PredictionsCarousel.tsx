@@ -2,12 +2,12 @@ import { Center, CircleIcon, FlatList, HStack, StyledProps } from "native-base";
 import { Dimensions } from "react-native";
 
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { TMeasure } from "../@types/landmarks";
+import { TMesure } from "../@types/landmarks";
 import ImageDownloader from "./ImageDownloader";
 
 type TProps = {
-  onDraw: (ctx: CanvasRenderingContext2D, item: TMeasure) => void;
-  measureArray: TMeasure[];
+  onDraw: (ctx: CanvasRenderingContext2D, item: TMesure) => void;
+  mesureArray: TMesure[];
   imgUrl: string;
   donwloadEnabled?: boolean;
 } & StyledProps;
@@ -18,14 +18,14 @@ export default function PredictionCarousel({
   onDraw,
   w = width,
   h,
-  measureArray,
+  mesureArray,
   imgUrl,
   donwloadEnabled = true,
   ...props
 }: TProps) {
   return (
     <FlatList
-      data={measureArray}
+      data={mesureArray}
       horizontal
       pagingEnabled
       h={h}
@@ -34,7 +34,7 @@ export default function PredictionCarousel({
       renderItem={({ item, index }) => (
         <Center key={item.name} width={w}>
           <HStack mb={3} justifyContent={"center"}>
-            {measureArray.map((_, i) => (
+            {mesureArray.map((_, i) => (
               <CircleIcon
                 key={i}
                 size={i === index ? "2" : "1.5"}

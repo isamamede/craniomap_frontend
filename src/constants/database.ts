@@ -1,6 +1,6 @@
 export const pointSchemaProperties = { type: "list", objectType: "intObject" };
 
-export const measureSchemaProperties = { type: "int" };
+export const mesureSchemaProperties = { type: "int" };
 
 export const tablesNames = {
   participant: "Participant",
@@ -8,5 +8,5 @@ export const tablesNames = {
   profilePred: "ProfilePredictions",
   image: "Image",
   point: "Point",
-  measure: "Measure",
+  mesure: "Mesure",
 };

@@ -15,9 +15,9 @@ import {
   TProfilePredictions,
 } from "../@types/database";
 import {
-  IFrontalMeasures,
+  IFrontalMesures,
   IFrontalPredictions,
-  IProfileMeasures,
+  IProfileMesures,
   IProfilePredictions,
 } from "../@types/landmarks";
 import { tablesNames } from "../constants/database";
@@ -28,7 +28,7 @@ import { getRealm } from "../databases/realm";
 interface IProps {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
-  measures: IFrontalMeasures | IProfileMeasures;
+  mesures: IFrontalMesures | IProfileMesures;
   predictions: IFrontalPredictions | IProfilePredictions;
   table: string;
 }
@@ -36,7 +36,7 @@ interface IProps {
 export default function SaveModal({
   setVisible,
   visible,
-  measures,
+  mesures,
   predictions,
   table,
 }: IProps) {
@@ -73,7 +73,7 @@ export default function SaveModal({
                 public_id,
                 signature,
               },
-              ...measures,
+              ...mesures,
               ...predictions,
             };
 
@@ -133,7 +133,7 @@ export default function SaveModal({
               public_id,
               signature,
             },
-            ...measures,
+            ...mesures,
             ...predictions,
           };
 

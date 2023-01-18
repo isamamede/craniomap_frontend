@@ -1,22 +1,22 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import * as XLSX from "xlsx";
-import { TMeasure } from "../@types/landmarks";
+import { TMesure } from "../@types/landmarks";
 import { TXLSXData } from "../@types/xlsx";
 
 export default async function writeToXLSX(data: TXLSXData[]): Promise<void> {
   const parsedData = data.map(
-    ({ participant, frontalMeasures, profileMeasures }) => {
+    ({ participant, frontalMesures, profileMesures }) => {
       let r: any = {
         Participante: participant.name,
       };
-      if (frontalMeasures) {
-        Object.values(frontalMeasures).forEach((value: TMeasure) => {
+      if (frontalMesures) {
+        Object.values(frontalMesures).forEach((value: TMesure) => {
           r[value.name] = value.value;
         });
       }
-      if (profileMeasures) {
-        Object.values(profileMeasures).forEach((value: TMeasure) => {
+      if (profileMesures) {
+        Object.values(profileMesures).forEach((value: TMesure) => {
           r[value.name] = value.value;
         });
       }

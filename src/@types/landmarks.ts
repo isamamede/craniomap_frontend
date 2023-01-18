@@ -1,6 +1,6 @@
 export type TPoint = { x: number; y: number };
 
-export enum MEASURES_NAMES {
+export enum MESURES_NAMES {
   CLS = "Comprimento labial superior",
   CLI = "Comprimento labial inferior",
   PL = "Proporção labial",
@@ -17,8 +17,8 @@ export enum MEASURES_NAMES {
   SML = "Sulco mentolabial",
 }
 
-export type TMeasure = {
-  name: MEASURES_NAMES;
+export type TMesure = {
+  name: MESURES_NAMES;
   type: "angle" | "distance";
   value: number;
 };
@@ -37,17 +37,17 @@ export interface IFrontalPredictions {
   traL: TPoint;
 }
 
-export interface IFrontalMeasures {
-  cls: TMeasure;
-  cli: TMeasure;
-  pl: TMeasure;
-  af: TMeasure;
-  ats: TMeasure;
-  atm: TMeasure;
-  ati: TMeasure;
-  lf: TMeasure;
-  pf: TMeasure;
-  ptmi: TMeasure;
+export interface IFrontalMesures {
+  cls: TMesure;
+  cli: TMesure;
+  pl: TMesure;
+  af: TMesure;
+  ats: TMesure;
+  atm: TMesure;
+  ati: TMesure;
+  lf: TMesure;
+  pf: TMesure;
+  ptmi: TMesure;
 }
 
 export interface IProfilePredictions {
@@ -64,14 +64,14 @@ export interface IProfilePredictions {
   li: TPoint;
   cc: TPoint;
 }
-export interface IProfileMeasures {
-  acf: TMeasure;
-  acm: TMeasure;
-  anl: TMeasure;
-  sml: TMeasure;
+export interface IProfileMesures {
+  acf: TMesure;
+  acm: TMesure;
+  anl: TMesure;
+  sml: TMesure;
 }
 
-export type TProfileMeasureName = "acf" | "acm" | "anl" | "sml";
+export type TProfileMesureName = "acf" | "acm" | "anl" | "sml";
 export type TPointsName =
   | "gn"
   | "sn"
@@ -90,7 +90,7 @@ export type TPointsName =
   | "cc";
 
 export interface IProfileType {
-  name: MEASURES_NAMES;
+  name: MESURES_NAMES;
   points: {
     begin: TPointsName;
     center: TPointsName;
@@ -99,7 +99,7 @@ export interface IProfileType {
 }
 
 export interface IFrontalType {
-  name: MEASURES_NAMES;
+  name: MESURES_NAMES;
   points: {
     begin: TPointsName;
 

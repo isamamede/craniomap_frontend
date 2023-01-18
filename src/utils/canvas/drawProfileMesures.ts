@@ -1,21 +1,21 @@
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { TMeasure } from "../../@types/landmarks";
-import { profileMeasuresMap } from "../../constants/measures";
+import { TMesure } from "../../@types/landmarks";
+import { profileMesuresMap } from "../../constants/mesures";
 import drawAngle from "./drawAngle";
 import writeToCanvas from "./writeToCanvas";
 
-export default function drawProfileMeasures(
+export default function drawProfileMesures(
   ctx: CanvasRenderingContext2D,
-  measure: TMeasure,
+  mesure: TMesure,
   prediction: any
 ) {
-  profileMeasuresMap.forEach(({ name, points }) => {
-    if (name === measure.name) {
+  profileMesuresMap.forEach(({ name, points }) => {
+    if (name === mesure.name) {
       const begin = prediction[points.begin];
       const center = prediction[points.center];
       const end = prediction[points.end];
       drawAngle(begin, center, end, ctx);
-      writeToCanvas(`${measure.value}\u00b0`, [10, 20], ctx);
+      writeToCanvas(`${mesure.value}\u00b0`, [10, 20], ctx);
     }
   });
 }

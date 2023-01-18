@@ -8,11 +8,13 @@ import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
+import { useServer } from "../../../contexts/Server";
 import drawProfile from "../../../utils/canvas/drawProfile";
-import getServerProfilePredictions from "../../../utils/server/getServerProfilePredictions";
+import getServerProfile from "../../../utils/server/getServerProfile";
 
 export default function ProfileDetectScreen() {
   const navigation = useNavigation();
+  const { compreface_url, compreface_api_key } = useServer();
   const { image } = useImage();
   const [loading, setLoading] = useState<boolean>(false);
   const { setProfilePredictions } = useProfilePredictions();
@@ -29,7 +31,7 @@ export default function ProfileDetectScreen() {
     if (image && image.base64) {
       setLoading(true);
 
-      await getServerProfilePredictions(image.base64)
+      await getServerProfile(compreface_url, image.base64, compreface_api_key)
         .then((response) => {
           setPredictions(response);
           !response

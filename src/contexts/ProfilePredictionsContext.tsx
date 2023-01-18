@@ -6,13 +6,13 @@ import {
   useMemo,
   useState,
 } from "react";
-import { IProfileMeasures, IProfilePredictions } from "../@types/landmarks";
-import getProfileMeasures from "../utils/math/getProfileMeasures";
+import { IProfileMesures, IProfilePredictions } from "../@types/landmarks";
+import getProfileMesures from "../utils/math/getProfileMesures";
 
 type TProfilePredictions = {
   profilePredictions: IProfilePredictions | null;
   setProfilePredictions: Dispatch<SetStateAction<IProfilePredictions | null>>;
-  profileMeasures: IProfileMeasures | null;
+  profileMesures: IProfileMesures | null;
 };
 
 interface IProps {
@@ -22,21 +22,21 @@ interface IProps {
 const ProfilePredictionsContext = createContext<TProfilePredictions>({
   profilePredictions: null,
   setProfilePredictions: () => {},
-  profileMeasures: null,
+  profileMesures: null,
 });
 
 const ProfilePredictionsProvider: React.FC<IProps> = ({ children }) => {
   const [profilePredictions, setProfilePredictions] =
     useState<IProfilePredictions | null>(null);
 
-  const profileMeasures: IProfileMeasures | null = useMemo(
-    () => (profilePredictions ? getProfileMeasures(profilePredictions) : null),
+  const profileMesures: IProfileMesures | null = useMemo(
+    () => (profilePredictions ? getProfileMesures(profilePredictions) : null),
     [profilePredictions]
   );
 
   return (
     <ProfilePredictionsContext.Provider
-      value={{ profilePredictions, setProfilePredictions, profileMeasures }}
+      value={{ profilePredictions, setProfilePredictions, profileMesures }}
     >
       {children}
     </ProfilePredictionsContext.Provider>

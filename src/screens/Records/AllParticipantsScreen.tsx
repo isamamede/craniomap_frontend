@@ -18,8 +18,8 @@ import {
   deleteCloudinaryImageByTag,
 } from "../../databases/cloudinary";
 import { getRealm } from "../../databases/realm";
-import getFrontalMeasuresFromDB from "../../utils/math/getFrontalMeasuresFromDB";
-import getProfileMeasuresFromDB from "../../utils/math/getProfileMeasuresFromDB";
+import getFrontalMesuresFromDB from "../../utils/math/getFrontalMesuresFromDB";
+import getProfileMesuresFromDB from "../../utils/math/getProfileMesuresFromDB";
 import writeToXLSX from "../../utils/writeToXLSX";
 
 export default function AllParticipantsScreen() {
@@ -121,11 +121,11 @@ export default function AllParticipantsScreen() {
           ?.toJSON();
         return {
           participant,
-          frontalMeasures: frontal
-            ? getFrontalMeasuresFromDB(frontal as TFrontalPredictions).object
+          frontalMesures: frontal
+            ? getFrontalMesuresFromDB(frontal as TFrontalPredictions).object
             : undefined,
-          profileMeasures: profile
-            ? getProfileMeasuresFromDB(profile as TProfilePredictions).object
+          profileMesures: profile
+            ? getProfileMesuresFromDB(profile as TProfilePredictions).object
             : undefined,
         };
       });

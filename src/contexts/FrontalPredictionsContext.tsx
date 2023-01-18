@@ -8,19 +8,19 @@ import {
 } from "react";
 
 import {
-  IFrontalMeasures,
+  IFrontalMesures,
   IFrontalPredictions,
   TPoint,
 } from "../@types/landmarks";
 import { getDistance } from "../utils/math/getDistance";
-import getFrontalMeasures from "../utils/math/getFrontalMeasures";
+import getFrontalMesures from "../utils/math/getFrontalMesures";
 
 type TPoints = { point1: TPoint; point2: TPoint };
 
 type TFrontalPredictions = {
   frontalPredictions: IFrontalPredictions | null;
   setFrontalPredictions: Dispatch<SetStateAction<IFrontalPredictions | null>>;
-  frontalMeasures: IFrontalMeasures | null;
+  frontalMesures: IFrontalMesures | null;
   distancePoints: TPoints | null;
   setDistancePoints: Dispatch<SetStateAction<TPoints | null>>;
   setValueInCM: Dispatch<SetStateAction<number>>;
@@ -35,7 +35,7 @@ interface Props {
 const FrontalPredictionsContext = createContext<TFrontalPredictions>({
   frontalPredictions: null,
   setFrontalPredictions: () => {},
-  frontalMeasures: null,
+  frontalMesures: null,
   distancePoints: null,
   setDistancePoints: () => {},
   valueInCm: 0,
@@ -57,9 +57,9 @@ const FrontalPredictionsProvider: React.FC<Props> = ({ children }) => {
     [distancePoints]
   );
 
-  const frontalMeasures: IFrontalMeasures | null = useMemo(() => {
+  const frontalMesures: IFrontalMesures | null = useMemo(() => {
     return frontalPredictions
-      ? getFrontalMeasures(frontalPredictions, valueInCm, valueInPx)
+      ? getFrontalMesures(frontalPredictions, valueInCm, valueInPx)
       : null;
   }, [frontalPredictions, valueInCm, valueInPx]);
 
@@ -68,7 +68,7 @@ const FrontalPredictionsProvider: React.FC<Props> = ({ children }) => {
       value={{
         frontalPredictions,
         setFrontalPredictions,
-        frontalMeasures,
+        frontalMesures,
         distancePoints,
         setDistancePoints,
         setValueInCM,

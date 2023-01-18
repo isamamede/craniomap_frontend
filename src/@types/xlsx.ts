@@ -1,8 +1,8 @@
 import { TParticipant } from "./database";
-import { IFrontalMeasures, IProfileMeasures } from "./landmarks";
+import { IFrontalMesures, IProfileMesures } from "./landmarks";
 
 export type TXLSXData = {
   participant: TParticipant;
-  frontalMeasures?: IFrontalMeasures;
-  profileMeasures?: IProfileMeasures;
+  frontalMesures?: IFrontalMesures;
+  profileMesures?: IProfileMesures;
 };

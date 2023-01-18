@@ -17,10 +17,10 @@ export type NewStackParamList = {
   Layout: undefined;
   FrontalDetect: undefined;
   ChangeTrPointScreen: undefined;
-  FrontalMeasures: undefined;
+  FrontalMesures: undefined;
   FrontalDistance: undefined;
   ProfileDetect: undefined;
-  ProfileMeasures: undefined;
+  ProfileMesures: undefined;
   ProfileMarkPoints: undefined;
 };
 

@@ -1,7 +1,7 @@
 import Realm from "realm";
 import {
   ImageSchema,
-  MeasureSchema,
+  MesureSchema,
   PointSchema,
 } from "./schemas/EmbeddedSchemas";
 import FrontalPredictionsSchema from "./schemas/FrontalPredictionsSchema";
@@ -10,14 +10,14 @@ import ProfilePredictionsSchema from "./schemas/ProfilePredictionsSchema";
 
 export const getRealm = async () =>
   await Realm.open({
-    path: "face-measures",
+    path: "face-mesures",
     schema: [
       ParticipantSchema,
       ProfilePredictionsSchema,
       FrontalPredictionsSchema,
       ImageSchema,
       PointSchema,
-      MeasureSchema,
+      MesureSchema,
     ],
-    schemaVersion: 2,
+    schemaVersion: 1,
   });

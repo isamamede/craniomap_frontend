@@ -14,7 +14,7 @@ export default function ChangeTrPointScreen() {
   const handleDone = () => {
     if (tr && frontalPredictions) {
       setFrontalPredictions({ ...frontalPredictions, tr });
-      navigation.navigate("FrontalMeasures");
+      navigation.navigate("FrontalMesures");
     } else {
       Alert.alert("Please mark the Cer, Np and CC points before proceding");
     }

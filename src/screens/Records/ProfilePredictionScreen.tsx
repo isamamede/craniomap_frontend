@@ -8,8 +8,8 @@ import Loading from "../../components/Loading";
 import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
-import drawProfileMeasures from "../../utils/canvas/drawProfileMeasures";
-import getProfileMeasuresFromDB from "../../utils/math/getProfileMeasuresFromDB";
+import drawProfileMesures from "../../utils/canvas/drawProfileMesures";
+import getProfileMesuresFromDB from "../../utils/math/getProfileMesuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "ProfilePrediction">;
 
@@ -46,9 +46,9 @@ export default function ProfilePredictionScreen({ route }: TProps) {
     }, [])
   );
 
-  const measureArray = useMemo(() => {
+  const mesureArray = useMemo(() => {
     if (predictions) {
-      return getProfileMeasuresFromDB(predictions).array;
+      return getProfileMesuresFromDB(predictions).array;
     }
     return [];
   }, [predictions]);
@@ -60,11 +60,11 @@ export default function ProfilePredictionScreen({ route }: TProps) {
       {predictions && (
         <PredictionCarousel
           key={predictions.participant_id}
-          measureArray={measureArray}
+          mesureArray={mesureArray}
           imgUrl={predictions.image.url}
           donwloadEnabled={true}
           onDraw={(ctx, item) => {
-            drawProfileMeasures(ctx, item, predictions);
+            drawProfileMesures(ctx, item, predictions);
           }}
         />
       )}

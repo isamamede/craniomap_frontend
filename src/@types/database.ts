@@ -1,4 +1,4 @@
-import { TMeasure, TPoint } from "./landmarks";
+import { TMesure, TPoint } from "./landmarks";
 
 /**
  * Database schema structure for participant table
@@ -35,16 +35,16 @@ export type TFrontalPredictions = {
   zyL: TPoint;
   traR: TPoint;
   traL: TPoint;
-  cls: TMeasure;
-  cli: TMeasure;
-  pl: TMeasure;
-  af: TMeasure;
-  ats: TMeasure;
-  atm: TMeasure;
-  ati: TMeasure;
-  lf: TMeasure;
-  pf: TMeasure;
-  ptmi: TMeasure;
+  cls: TMesure;
+  cli: TMesure;
+  pl: TMesure;
+  af: TMesure;
+  ats: TMesure;
+  atm: TMesure;
+  ati: TMesure;
+  lf: TMesure;
+  pf: TMesure;
+  ptmi: TMesure;
   created_at: Date;
 };
 
@@ -66,9 +66,9 @@ export type TProfilePredictions = {
   st: TPoint;
   ls: TPoint;
   li: TPoint;
-  acf: TMeasure;
-  acm: TMeasure;
-  anl: TMeasure;
-  sml: TMeasure;
+  acf: TMesure;
+  acm: TMesure;
+  anl: TMesure;
+  sml: TMesure;
   created_at: Date;
 };

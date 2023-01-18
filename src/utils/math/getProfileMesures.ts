@@ -1,32 +1,32 @@
 import {
-  IProfileMeasures,
+  IProfileMesures,
   IProfilePredictions,
-  MEASURES_NAMES,
-  TMeasure,
+  MESURES_NAMES,
+  TMesure,
 } from "../../@types/landmarks";
 import getAngle from "./getAngle";
 
-export default function getProfileMeasures(
+export default function getProfileMesures(
   predictions: IProfilePredictions
-): IProfileMeasures {
+): IProfileMesures {
   const { gn, sn, cer, g, me, np, t, ls, li, cc } = predictions;
-  const acf: TMeasure = {
-    name: MEASURES_NAMES.ACF,
+  const acf: TMesure = {
+    name: MESURES_NAMES.ACF,
     type: "angle",
     value: getAngle(g, sn, gn),
   };
-  const acm: TMeasure = {
-    name: MEASURES_NAMES.ACM,
+  const acm: TMesure = {
+    name: MESURES_NAMES.ACM,
     type: "angle",
     value: getAngle(me, cer, np),
   };
-  const anl: TMeasure = {
-    name: MEASURES_NAMES.ANL,
+  const anl: TMesure = {
+    name: MESURES_NAMES.ANL,
     type: "angle",
     value: getAngle(t, sn, ls),
   };
-  const sml: TMeasure = {
-    name: MEASURES_NAMES.SML,
+  const sml: TMesure = {
+    name: MESURES_NAMES.SML,
     type: "angle",
     value: getAngle(li, cc, gn),
   };

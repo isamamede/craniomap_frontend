@@ -1,9 +1,14 @@
 {
   "expo": {
-    "name": "face-measures",
-    "slug": "face-measures",
+    "name": "face-mesures",
+    "slug": "face-mesures",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
+    "icon": "./src/assets/icon.png",
+    "splash": { "image": "./src/assets/splash.png" },
+    "android": {
+      "package": "com.medtown.facemesures"
+    },
     "plugins": [
       [
         "expo-image-picker",

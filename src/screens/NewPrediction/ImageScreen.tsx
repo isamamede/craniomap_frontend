@@ -1,9 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { manipulateAsync } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import { Button, Center, Image, Row, VStack } from "native-base";
-import { useEffect } from "react";
+import {
+  Box,
+  Button,
+  Center,
+  HStack,
+  Image,
+  Row,
+  Spacer,
+  VStack,
+} from "native-base";
+import { useEffect, useState } from "react";
 import { IconButton } from "../../components/IconButton";
+import ServerModal from "../../components/ServerModal";
 import { imgDimensions } from "../../constants/image";
 import { useImage } from "../../contexts/ImageContext";
 
@@ -14,6 +24,7 @@ export default function ImageScreen() {
   const [cameraPermission, requestCameraPermission] =
     ImagePicker.useCameraPermissions();
   const navigation = useNavigation();
+  const [serverVisible, setServerVisible] = useState<boolean>(false);
 
   //request camera and media library permissions
   useEffect(() => {
@@ -64,8 +75,24 @@ export default function ImageScreen() {
   }
 
   return (
-    <Center height={"full"}>
-      <VStack space={4} alignItems="center">
+    <Box width={"full"} height={"full"}>
+      <ServerModal setVisible={setServerVisible} visible={serverVisible} />
+      <HStack height={"10%"} p={3}>
+        <Spacer />
+        <IconButton
+          mt={5}
+          size={"sm"}
+          name="server"
+          variant={"ghost"}
+          onPress={() => setServerVisible(true)}
+        />
+      </HStack>
+      <VStack
+        height={"90%"}
+        justifyContent={"center"}
+        space={4}
+        alignItems="center"
+      >
         {photosPermission?.granted && cameraPermission?.granted && (
           <Row
             space={4}
@@ -139,6 +166,6 @@ export default function ImageScreen() {
           </>
         )}
       </VStack>
-    </Center>
+    </Box>
   );
 }

@@ -8,11 +8,13 @@ import { IFrontalPredictions } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
+import { useServer } from "../../../contexts/Server";
 import drawFront from "../../../utils/canvas/drawFront";
 import getServerFrontal from "../../../utils/server/getServerFrontal";
 
 export default function FrontalDetectScreen() {
   const navigation = useNavigation();
+  const { node_url } = useServer();
   const { image } = useImage();
   const { setFrontalPredictions } = useFrontalPredictions();
   const canvas = useRef<Canvas>(null);
@@ -26,7 +28,7 @@ export default function FrontalDetectScreen() {
     if (image) {
       setLoading(true);
 
-      await getServerFrontal(image.uri)
+      await getServerFrontal(node_url, image.uri)
         .then((response) => {
           if (response) {
             setPredictions(response);

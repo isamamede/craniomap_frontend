@@ -1,12 +1,8 @@
-import {
-  IFrontalType,
-  IProfileType,
-  MEASURES_NAMES,
-} from "../@types/landmarks";
+import { IFrontalType, IProfileType, MESURES_NAMES } from "../@types/landmarks";
 
-export const profileMeasuresMap: IProfileType[] = [
+export const profileMesuresMap: IProfileType[] = [
   {
-    name: MEASURES_NAMES.ACF,
+    name: MESURES_NAMES.ACF,
     points: {
       begin: "g",
       center: "sn",
@@ -14,7 +10,7 @@ export const profileMeasuresMap: IProfileType[] = [
     },
   },
   {
-    name: MEASURES_NAMES.ACM,
+    name: MESURES_NAMES.ACM,
     points: {
       begin: "me",
       center: "cer",
@@ -22,7 +18,7 @@ export const profileMeasuresMap: IProfileType[] = [
     },
   },
   {
-    name: MEASURES_NAMES.ANL,
+    name: MESURES_NAMES.ANL,
     points: {
       begin: "t",
       center: "sn",
@@ -30,7 +26,7 @@ export const profileMeasuresMap: IProfileType[] = [
     },
   },
   {
-    name: MEASURES_NAMES.SML,
+    name: MESURES_NAMES.SML,
     points: {
       begin: "li",
       center: "cc",
@@ -39,51 +35,51 @@ export const profileMeasuresMap: IProfileType[] = [
   },
 ];
 
-export const frontalMeasuresMap: IFrontalType[] = [
+export const frontalMesuresMap: IFrontalType[] = [
   {
-    name: MEASURES_NAMES.CLS,
+    name: MESURES_NAMES.CLS,
     points: {
       begin: "sn",
       end: "st",
     },
   },
   {
-    name: MEASURES_NAMES.CLI,
+    name: MESURES_NAMES.CLI,
     points: {
       begin: "st",
       end: "gn",
     },
   },
   {
-    name: MEASURES_NAMES.AF,
+    name: MESURES_NAMES.AF,
     points: {
       begin: "tr",
       end: "gn",
     },
   },
   {
-    name: MEASURES_NAMES.ATS,
+    name: MESURES_NAMES.ATS,
     points: {
       begin: "tr",
       end: "n",
     },
   },
   {
-    name: MEASURES_NAMES.ATM,
+    name: MESURES_NAMES.ATM,
     points: {
       begin: "n",
       end: "sn",
     },
   },
   {
-    name: MEASURES_NAMES.ATI,
+    name: MESURES_NAMES.ATI,
     points: {
       begin: "sn",
       end: "gn",
     },
   },
   {
-    name: MEASURES_NAMES.LF,
+    name: MESURES_NAMES.LF,
     points: {
       begin: "traL",
       end: "traR",

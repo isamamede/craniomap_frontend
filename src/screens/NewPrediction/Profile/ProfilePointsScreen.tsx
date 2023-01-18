@@ -29,7 +29,7 @@ export default function ProfilePointsScreen() {
   const handleDone = () => {
     if (cer && np && cc && profilePredictions) {
       setProfilePredictions({ ...profilePredictions, cer, np, cc });
-      navigation.navigate("ProfileMeasures");
+      navigation.navigate("ProfileMesures");
     } else {
       Alert.alert("Please mark the Cer, Np and CC points before proceding");
     }

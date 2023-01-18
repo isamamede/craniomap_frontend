@@ -2,57 +2,57 @@ import { useNavigation } from "@react-navigation/native";
 import { Center, HStack, Heading } from "native-base";
 import { useMemo, useState } from "react";
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { TMeasure } from "../../../@types/landmarks";
+import { TMesure } from "../../../@types/landmarks";
 import { IconButton } from "../../../components/IconButton";
 import PredictionCarousel from "../../../components/PredictionsCarousel";
 import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
-import drawFrontalMeasures from "../../../utils/canvas/drawFrontalMeasures";
-import getFrontalMeasuresFromDB from "../../../utils/math/getFrontalMeasuresFromDB";
+import drawFrontalMesures from "../../../utils/canvas/drawFrontalMesures";
+import getFrontalMesuresFromDB from "../../../utils/math/getFrontalMesuresFromDB";
 
-export default function FrontalMeasuresScreen() {
+export default function FrontalMesuresScreen() {
   const navigation = useNavigation();
   const { setImage, image } = useImage();
-  const { frontalMeasures, frontalPredictions } = useFrontalPredictions();
+  const { frontalMesures, frontalPredictions } = useFrontalPredictions();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const measuresArray = useMemo(() => {
-    if (frontalMeasures) {
-      return getFrontalMeasuresFromDB(frontalMeasures).arrayWithoutP;
+  const mesuresArray = useMemo(() => {
+    if (frontalMesures) {
+      return getFrontalMesuresFromDB(frontalMesures).arrayWithoutP;
     }
     return [];
-  }, [frontalMeasures]);
+  }, [frontalMesures]);
 
   const handleHome = () => {
     setImage(null);
     navigation.navigate("Image");
   };
 
-  const onDraw = (ctx: CanvasRenderingContext2D, item: TMeasure) => {
-    if (frontalMeasures && frontalPredictions)
-      drawFrontalMeasures(ctx, item, frontalPredictions);
+  const onDraw = (ctx: CanvasRenderingContext2D, item: TMesure) => {
+    if (frontalMesures && frontalPredictions)
+      drawFrontalMesures(ctx, item, frontalPredictions);
   };
 
   return (
     <Center height={"full"} width={"full"}>
-      {frontalPredictions && frontalMeasures && (
+      {frontalPredictions && frontalMesures && (
         <SaveModal
           visible={modalVisible}
           setVisible={setModalVisible}
-          measures={frontalMeasures}
+          mesures={frontalMesures}
           predictions={frontalPredictions}
           table={tablesNames.frontalPred}
         />
       )}
       <Heading fontSize={"md"} p="4">
-        Measures Obtained
+        Mesures Obtained
       </Heading>
-      {frontalMeasures && image && (
+      {frontalMesures && image && (
         <PredictionCarousel
           imgUrl={`data:image/jpg;base64,${image.base64}`}
-          measureArray={measuresArray}
+          mesureArray={mesuresArray}
           onDraw={onDraw}
           donwloadEnabled={false}
         />

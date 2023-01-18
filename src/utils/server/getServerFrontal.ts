@@ -1,6 +1,5 @@
 import * as FileSystem from "expo-file-system";
 import { IFrontalPredictions } from "../../@types/landmarks";
-import { SERVER_URL } from "../../config";
 import {
   frontalIndexArray,
   frontalIndexObj,
@@ -44,13 +43,17 @@ function parseFrontalPredictions(
 
 /**
  * Call server and parse server frontal predictions to the frontend use format
+ * @param node_url - Node server url
  * @param image_uri - Uploaded image uri
  * @returns an object with the wanted predictions
  */
-export default async function getServerFrontal(image_uri: string) {
+export default async function getServerFrontal(
+  node_url: string,
+  image_uri: string
+) {
   try {
     const response = await FileSystem.uploadAsync(
-      `${SERVER_URL}/front`,
+      `${node_url}/front`,
       image_uri,
       {
         uploadType: FileSystem.FileSystemUploadType.MULTIPART,

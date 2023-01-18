@@ -3,14 +3,14 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useCallback, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import { TFrontalPredictions } from "../../@types/database";
-import { TMeasure } from "../../@types/landmarks";
+import { TMesure } from "../../@types/landmarks";
 import { RecordParamList } from "../../@types/navigation";
 import Loading from "../../components/Loading";
 import PredictionCarousel from "../../components/PredictionsCarousel";
 import { tablesNames } from "../../constants/database";
 import { getRealm } from "../../databases/realm";
-import drawFrontalMeasures from "../../utils/canvas/drawFrontalMeasures";
-import getFrontalMeasuresFromDB from "../../utils/math/getFrontalMeasuresFromDB";
+import drawFrontalMesures from "../../utils/canvas/drawFrontalMesures";
+import getFrontalMesuresFromDB from "../../utils/math/getFrontalMesuresFromDB";
 
 type TProps = NativeStackScreenProps<RecordParamList, "FrontalPrediction">;
 
@@ -47,9 +47,9 @@ export default function FrontalPredictionScreen({ route }: TProps) {
     }, [])
   );
 
-  const measureArray: TMeasure[] = useMemo(() => {
+  const mesureArray: TMesure[] = useMemo(() => {
     if (predictions) {
-      return getFrontalMeasuresFromDB(predictions).arrayWithoutP;
+      return getFrontalMesuresFromDB(predictions).arrayWithoutP;
     }
     return [];
   }, [predictions]);
@@ -61,10 +61,10 @@ export default function FrontalPredictionScreen({ route }: TProps) {
       {predictions && (
         <PredictionCarousel
           key={predictions.participant_id}
-          measureArray={measureArray}
+          mesureArray={mesureArray}
           imgUrl={predictions.image.url}
           onDraw={(ctx, item) => {
-            drawFrontalMeasures(ctx, item, predictions);
+            drawFrontalMesures(ctx, item, predictions);
           }}
         />
       )}

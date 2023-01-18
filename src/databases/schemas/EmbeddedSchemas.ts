@@ -19,8 +19,8 @@ export const PointSchema = {
   },
 };
 
-export const MeasureSchema = {
-  name: tablesNames.measure,
+export const MesureSchema = {
+  name: tablesNames.mesure,
   embedded: true,
   properties: {
     name: "string",

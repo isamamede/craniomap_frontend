@@ -2,19 +2,19 @@ import { useNavigation } from "@react-navigation/native";
 import { Center, HStack, Heading } from "native-base";
 import { useState } from "react";
 import { CanvasRenderingContext2D } from "react-native-canvas";
-import { TMeasure } from "../../../@types/landmarks";
+import { TMesure } from "../../../@types/landmarks";
 import { IconButton } from "../../../components/IconButton";
 import PredictionCarousel from "../../../components/PredictionsCarousel";
 import SaveModal from "../../../components/SaveModal";
 import { tablesNames } from "../../../constants/database";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
-import drawProfileMeasures from "../../../utils/canvas/drawProfileMeasures";
+import drawProfileMesures from "../../../utils/canvas/drawProfileMesures";
 
-export default function ProfileMeasuresScreen() {
+export default function ProfileMesuresScreen() {
   const navigation = useNavigation();
   const { setImage, image } = useImage();
-  const { profileMeasures, profilePredictions } = useProfilePredictions();
+  const { profileMesures, profilePredictions } = useProfilePredictions();
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleHome = () => {
@@ -22,30 +22,30 @@ export default function ProfileMeasuresScreen() {
     navigation.navigate("Image");
   };
 
-  const onDraw = (ctx: CanvasRenderingContext2D, item: TMeasure) => {
-    if (profileMeasures && profilePredictions)
-      drawProfileMeasures(ctx, item, profilePredictions);
+  const onDraw = (ctx: CanvasRenderingContext2D, item: TMesure) => {
+    if (profileMesures && profilePredictions)
+      drawProfileMesures(ctx, item, profilePredictions);
   };
 
   return (
     <Center height={"full"}>
-      {profilePredictions && profileMeasures && (
+      {profilePredictions && profileMesures && (
         <SaveModal
           visible={modalVisible}
           setVisible={setModalVisible}
-          measures={profileMeasures}
+          mesures={profileMesures}
           predictions={profilePredictions}
           table={tablesNames.profilePred}
         />
       )}
       <Heading fontSize={"md"} p="4">
-        Measures Obtained
+        Mesures Obtained
       </Heading>
 
-      {profileMeasures && image && (
+      {profileMesures && image && (
         <PredictionCarousel
           imgUrl={`data:image/jpg;base64,${image.base64}`}
-          measureArray={Object.values(profileMeasures)}
+          mesureArray={Object.values(profileMesures)}
           onDraw={onDraw}
           donwloadEnabled={false}
         />

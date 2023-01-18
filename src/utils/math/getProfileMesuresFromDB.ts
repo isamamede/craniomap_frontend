@@ -1,9 +1,9 @@
 import { TProfilePredictions } from "../../@types/database";
-import { IProfileMeasures, TMeasure } from "../../@types/landmarks";
+import { IProfileMesures, TMesure } from "../../@types/landmarks";
 
-export default function getProfileMeasuresFromDB(
+export default function getProfileMesuresFromDB(
   predictions: TProfilePredictions
-): { object: IProfileMeasures; array: TMeasure[] } {
+): { object: IProfileMesures; array: TMesure[] } {
   const { acf, acm, anl, sml } = predictions;
 
   return {
