@@ -1,13 +1,17 @@
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Center, VStack } from "native-base";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Alert } from "react-native";
 import { TPoint } from "../../../@types/landmarks";
 import ChangePoint from "../../../components/ChangePoint";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 
+type TZoomableViewRef = React.ElementRef<typeof ReactNativeZoomableView>;
+
 export default function ProfilePointsScreen() {
   const navigation = useNavigation();
+  const zoomable_viewRef = useRef<TZoomableViewRef>(null);
   const [cer, setCer] = useState<TPoint | null>(null);
   const [np, setNp] = useState<TPoint | null>(null);
   const [cc, setCc] = useState<TPoint | null>(null);
@@ -15,6 +19,7 @@ export default function ProfilePointsScreen() {
   const { setProfilePredictions, profilePredictions } = useProfilePredictions();
 
   const handleNext = () => {
+    zoomable_viewRef.current?.zoomTo(1);
     if (drawingPoint === "Cer") {
       cer
         ? setDrawingPoint("Np")
@@ -27,6 +32,7 @@ export default function ProfilePointsScreen() {
   };
 
   const handleDone = () => {
+    zoomable_viewRef.current?.zoomTo(1);
     if (cer && np && cc && profilePredictions) {
       setProfilePredictions({ ...profilePredictions, cer, np, cc });
       navigation.navigate("ProfileMesures");
@@ -46,6 +52,7 @@ export default function ProfilePointsScreen() {
           point={point}
           setPoint={setPoint}
           pointName={drawingPoint}
+          zoomable_viewRef={zoomable_viewRef}
         />
         {drawingPoint !== "Cc" ? (
           <Button onPress={handleNext} marginBottom={"2"} isDisabled={!cer}>

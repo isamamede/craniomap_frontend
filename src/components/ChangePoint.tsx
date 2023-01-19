@@ -9,14 +9,21 @@ import { drawPoint } from "../utils/canvas/drawPoint";
 import CanvasImage from "./CanvasImage";
 
 type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;
+type ZoomableViewHandle = React.ElementRef<typeof ReactNativeZoomableView>;
 
 interface IProps {
   setPoint: React.Dispatch<React.SetStateAction<TPoint | null>>;
   point: TPoint | null;
   pointName: string;
+  zoomable_viewRef?: React.RefObject<ReactNativeZoomableView>;
 }
 
-export default function ChangePoint({ setPoint, point, pointName }: IProps) {
+export default function ChangePoint({
+  setPoint,
+  point,
+  pointName,
+  zoomable_viewRef,
+}: IProps) {
   const { image } = useImage();
   const canvas = useRef<Canvas>(null);
   const canvasImgRef = useRef<CanvasImageHandle>(null);
@@ -49,6 +56,7 @@ export default function ChangePoint({ setPoint, point, pointName }: IProps) {
       {image && (
         <View height={image.height} width={image.width}>
           <ReactNativeZoomableView
+            ref={zoomable_viewRef}
             maxZoom={15}
             minZoom={1}
             initialZoom={1}
