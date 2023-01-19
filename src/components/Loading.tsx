@@ -11,7 +11,7 @@ export default function Loading() {
     >
       <Spinner
         accessibilityLabel="Loading predictions"
-        color={"cyan.500"}
+        color={"primary"}
         size="lg"
       />
     </Center>

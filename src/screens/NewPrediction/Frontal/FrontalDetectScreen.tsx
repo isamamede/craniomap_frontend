@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import { Button, Center, HStack, Spinner, VStack } from "native-base";
 import { useRef, useState } from "react";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IFrontalPredictions } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
@@ -101,7 +100,6 @@ export default function FrontalDetectScreen() {
           Done
         </Button>
       </VStack>
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </Center>
   );
 }

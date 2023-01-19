@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import { Button, Center, HStack, Spinner, VStack } from "native-base";
 import { useRef, useState } from "react";
-import { Alert, Platform, StyleSheet } from "react-native";
+import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
@@ -107,15 +106,6 @@ export default function ProfileDetectScreen() {
           Done
         </Button>
       </VStack>
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </Center>
   );
 }
-
-const styles = StyleSheet.create({
-  canvas: {
-    position: "absolute",
-    zIndex: 9,
-  },
-});
