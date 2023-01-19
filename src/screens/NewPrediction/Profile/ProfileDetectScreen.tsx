@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { Button, Center, HStack, Spinner, VStack } from "native-base";
+import { Button, Center, HStack, VStack } from "native-base";
 import { useRef, useState } from "react";
 import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
+import Loading from "../../../components/Loading";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
 import { useServer } from "../../../contexts/Server";
@@ -68,21 +69,7 @@ export default function ProfileDetectScreen() {
 
   return (
     <Center height={"full"}>
-      {loading && (
-        <Center
-          height={"full"}
-          width="full"
-          position={"absolute"}
-          style={{ position: "absolute", zIndex: 100 }}
-          backgroundColor="dark.50:alpha.70"
-        >
-          <Spinner
-            accessibilityLabel="Loading predictions"
-            color={"cyan.500"}
-            size="lg"
-          />
-        </Center>
-      )}
+      {loading && <Loading />}
       <VStack space={3}>
         <Center marginTop={2}>
           <HStack space={3}>
