@@ -12,7 +12,7 @@ export default function App() {
       <SafeAreaProvider>
         <NativeBaseProvider theme={theme}>
           <Routes />
-          <StatusBar />
+          <StatusBar style="dark" />
         </NativeBaseProvider>
       </SafeAreaProvider>
     </WithSplashScreen>

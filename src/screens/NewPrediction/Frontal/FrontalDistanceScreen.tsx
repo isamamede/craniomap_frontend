@@ -1,3 +1,4 @@
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import { useNavigation } from "@react-navigation/native";
 import {
   Button,
@@ -7,6 +8,7 @@ import {
   Pressable,
   Text,
   VStack,
+  View,
 } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, GestureResponderEvent } from "react-native";
@@ -18,6 +20,7 @@ import { useImage } from "../../../contexts/ImageContext";
 import { drawPoint } from "../../../utils/canvas/drawPoint";
 
 type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;
+type ZoomableViewHandle = React.ElementRef<typeof ReactNativeZoomableView>;
 
 export default function FrontalDistanceScreen() {
   const navigation = useNavigation();
@@ -25,6 +28,7 @@ export default function FrontalDistanceScreen() {
   const { setDistancePoints, setValueInCM } = useFrontalPredictions();
   const canvas = useRef<Canvas>(null);
   const canvasImgRef = useRef<CanvasImageHandle>(null);
+  const zoomable_viewRef = useRef<ZoomableViewHandle>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [point1, setPoint1] = useState<TPoint | null>(null);
   const [point2, setPoint2] = useState<TPoint | null>(null);
@@ -62,6 +66,7 @@ export default function FrontalDistanceScreen() {
   };
 
   const handleNext = () => {
+    zoomable_viewRef.current?.zoomTo(1);
     if (point1) {
       setDrawingPoint("two");
     } else {
@@ -70,6 +75,7 @@ export default function FrontalDistanceScreen() {
   };
 
   const handleDone = () => {
+    zoomable_viewRef.current?.zoomTo(1);
     if (point1 && point2 && cm) {
       setDistancePoints({ point1, point2 });
       setValueInCM(Number(cm));
@@ -87,14 +93,25 @@ export default function FrontalDistanceScreen() {
           color="cyan.500"
         >{`Draw point ${drawingPoint}`}</Text>
         {image && (
-          <Pressable onPress={handlePress}>
-            <CanvasImage
-              ref={canvasImgRef}
-              canvasRef={canvas}
-              onDraw={handleDraw}
-              img_url={`data:image/jpg;base64,${image.base64}`}
-            />
-          </Pressable>
+          <View height={image.height} width={image.width}>
+            <ReactNativeZoomableView
+              ref={zoomable_viewRef}
+              maxZoom={15}
+              minZoom={1}
+              initialZoom={1}
+              contentWidth={image.width}
+              contentHeight={image.height}
+            >
+              <Pressable onPress={handlePress}>
+                <CanvasImage
+                  ref={canvasImgRef}
+                  canvasRef={canvas}
+                  onDraw={handleDraw}
+                  img_url={`data:image/jpg;base64,${image.base64}`}
+                />
+              </Pressable>
+            </ReactNativeZoomableView>
+          </View>
         )}
         {drawingPoint !== "two" ? (
           <Button mt={2} onPress={handleNext} marginBottom="2">

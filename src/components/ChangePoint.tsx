@@ -9,7 +9,6 @@ import { drawPoint } from "../utils/canvas/drawPoint";
 import CanvasImage from "./CanvasImage";
 
 type CanvasImageHandle = React.ElementRef<typeof CanvasImage>;
-type ZoomableViewHandle = React.ElementRef<typeof ReactNativeZoomableView>;
 
 interface IProps {
   setPoint: React.Dispatch<React.SetStateAction<TPoint | null>>;
