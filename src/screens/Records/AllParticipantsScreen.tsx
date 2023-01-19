@@ -39,7 +39,7 @@ export default function AllParticipantsScreen() {
         .toJSON();
       setParticipants(response as TParticipant[]);
     } catch {
-      Alert.alert("Error", "Could not fetch particpants");
+      Alert.alert("Error", "Could not fetch participants");
     } finally {
       db.close();
       setLoading(false);
@@ -60,18 +60,18 @@ export default function AllParticipantsScreen() {
         tablesNames.participant,
         _id
       );
-      var particpantsFPred = db
+      var participantsFPred = db
         .objects(tablesNames.frontalPred)
         .filtered(`participant_id == '${_id}'`);
-      var particpantsPPred = db
+      var participantsPPred = db
         .objects(tablesNames.profilePred)
         .filtered(`participant_id == '${_id}'`);
 
       await deleteCloudinaryImageByTag(object?._id);
       db.write(() => {
         db.delete(object);
-        db.delete(particpantsFPred);
-        db.delete(particpantsPPred);
+        db.delete(participantsFPred);
+        db.delete(participantsPPred);
         object = null;
       });
     } catch (err) {
@@ -152,11 +152,11 @@ export default function AllParticipantsScreen() {
         loading={modalLoading}
         action={handleDeleteAll}
         title={"Delete all participants"}
-        body={"Are you sure you want to delete all particpants?"}
+        body={"Are you sure you want to delete all participants?"}
       />
       <HStack>
         <Heading fontSize="xl" p="4" pb="3">
-          Particpants
+          Participants
         </Heading>
         <Spacer />
         <IconButton

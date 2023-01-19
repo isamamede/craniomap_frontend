@@ -3,9 +3,7 @@
     "name": "FaceMesures",
     "slug": "FaceMesures",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "icon": "/src/assets/images/icon.png",
     "splash": {
       "image": "./src/assets/images/splash.png",
@@ -23,7 +21,11 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION"
-      ]
+      ],
+      "backgroundColor": "#FF002B"
+    },
+    "ios": {
+      "backgroundColor": "#FF002B"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"

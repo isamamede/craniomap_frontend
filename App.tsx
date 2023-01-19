@@ -3,21 +3,18 @@ import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { theme } from "./src/constants/theme";
-import useCachedResources from "./src/hooks/useCachedResources";
 import { Routes } from "./src/routes";
+import { WithSplashScreen } from "./src/screens/WithSplashScreen";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
+  return (
+    <WithSplashScreen>
       <SafeAreaProvider>
         <NativeBaseProvider theme={theme}>
           <Routes />
           <StatusBar />
         </NativeBaseProvider>
       </SafeAreaProvider>
-    );
-  }
+    </WithSplashScreen>
+  );
 }

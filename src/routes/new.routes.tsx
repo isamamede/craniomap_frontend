@@ -22,7 +22,7 @@ export function NewStack() {
       <ImageProvider>
         <FrontalPredictionsProvider>
           <ProfilePredictionsProvider>
-            <Navigator>
+            <Navigator screenOptions={{ headerShown: false }}>
               <Screen
                 name="Image"
                 options={{ headerShown: false }}

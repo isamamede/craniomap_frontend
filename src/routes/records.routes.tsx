@@ -10,7 +10,7 @@ const { Screen, Navigator, Group } =
 
 export function RecordStack() {
   return (
-    <Navigator>
+    <Navigator screenOptions={{ headerShown: false }}>
       <Screen
         name="AllParticipants"
         options={{ headerShown: false }}
