@@ -19,7 +19,7 @@ export default function ServerModal({ setVisible, visible }: IProps) {
   };
 
   return (
-    <Modal isOpen={visible} onClose={setVisible}>
+    <Modal isOpen={visible} onClose={() => setVisible(false)}>
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>Change server ip</Modal.Header>
@@ -42,9 +42,9 @@ export default function ServerModal({ setVisible, visible }: IProps) {
             <Button onPress={handleSave}>SAVE</Button>
             <Button
               onPress={() => {
-                setVisible(!visible);
+                setVisible(false);
               }}
-              colorScheme="secondary"
+              colorScheme={"warning.500"}
             >
               CLOSE
             </Button>

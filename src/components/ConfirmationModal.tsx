@@ -19,7 +19,7 @@ export default function ConfirmationModal({
   action,
 }: IProps) {
   return (
-    <Modal isOpen={visible} onClose={setVisible}>
+    <Modal isOpen={visible} onClose={() => setVisible(false)}>
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>{title}</Modal.Header>
@@ -31,10 +31,10 @@ export default function ConfirmationModal({
             </Button>
             <Button
               onPress={() => {
-                setVisible(!visible);
+                setVisible(false);
               }}
               isLoading={loading}
-              colorScheme="secondary"
+              color={"warning.500"}
             >
               NO
             </Button>

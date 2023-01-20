@@ -88,10 +88,7 @@ export default function FrontalDistanceScreen() {
   return (
     <Center height={"full"}>
       <VStack space={0.5}>
-        <Text
-          fontSize="lg"
-          color="cyan.500"
-        >{`Draw point ${drawingPoint}`}</Text>
+        <Text fontSize="lg">{`Mark ruler's point ${drawingPoint.toUpperCase()}`}</Text>
         {image && (
           <View height={image.height} width={image.width}>
             <ReactNativeZoomableView

@@ -51,7 +51,7 @@ export default function ChangePoint({
 
   return (
     <VStack space={1}>
-      <Text fontSize="lg" color="cyan.500">{`Draw point ${pointName}`}</Text>
+      <Text fontSize="lg">{`Mark point ${pointName.toUpperCase()}`}</Text>
       {image && (
         <View height={image.height} width={image.width}>
           <ReactNativeZoomableView

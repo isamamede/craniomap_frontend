@@ -183,7 +183,7 @@ export default function SaveModal({
   }, []);
 
   return (
-    <Modal isOpen={visible} onClose={setVisible}>
+    <Modal isOpen={visible} onClose={() => setVisible(false)}>
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>Do you want to save the data?</Modal.Header>
@@ -238,10 +238,10 @@ export default function SaveModal({
             </Button>
             <Button
               onPress={() => {
-                setVisible(!visible);
+                setVisible(false);
               }}
               isLoading={loading}
-              colorScheme="secondary"
+              colorScheme={"warning.500"}
             >
               CLOSE
             </Button>

@@ -21,7 +21,7 @@ export default function ChangeTrPointScreen() {
   };
 
   return (
-    <Center width={"full"}>
+    <Center width={"full"} height={"full"}>
       <ChangePoint pointName="Tr" point={tr} setPoint={setTr} />
       <Button marginTop={"2"} onPress={handleDone} isDisabled={!tr}>
         Done

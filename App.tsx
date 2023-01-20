@@ -3,18 +3,18 @@ import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { theme } from "./src/constants/theme";
+import useCachedResources from "./src/hooks/useCachedResources";
 import { Routes } from "./src/routes";
-import { WithSplashScreen } from "./src/screens/WithSplashScreen";
 
 export default function App() {
-  return (
-    <WithSplashScreen>
-      <SafeAreaProvider>
-        <NativeBaseProvider theme={theme}>
-          <Routes />
-          <StatusBar style="dark" />
-        </NativeBaseProvider>
-      </SafeAreaProvider>
-    </WithSplashScreen>
+  const isAppReady = useCachedResources();
+
+  return !isAppReady ? null : (
+    <SafeAreaProvider>
+      <NativeBaseProvider theme={theme}>
+        <Routes />
+        <StatusBar style="dark" />
+      </NativeBaseProvider>
+    </SafeAreaProvider>
   );
 }
