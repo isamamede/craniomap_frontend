@@ -5,6 +5,7 @@ import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IFrontalPredictions } from "../../../@types/landmarks";
 import CanvasImage from "../../../components/CanvasImage";
+import ChangePointsModal from "../../../components/ChangePointsModal";
 import Loading from "../../../components/Loading";
 import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
 import { useImage } from "../../../contexts/ImageContext";
@@ -23,6 +24,8 @@ export default function FrontalDetectScreen() {
   );
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [pointsToChange, setPointsToChange] = useState<string[]>(["tr"]);
 
   const handleDetect = async () => {
     if (image) {
@@ -58,12 +61,23 @@ export default function FrontalDetectScreen() {
   const handleDone = () => {
     if (predictions) {
       setFrontalPredictions(predictions);
-      navigation.navigate("ChangeTrPointScreen");
+      navigation.navigate("ChangeFrontalPointScreen", {
+        pointsToChange,
+      });
     }
   };
 
   return (
     <Center height={"full"}>
+      {predictions && (
+        <ChangePointsModal
+          setVisible={setVisible}
+          visible={visible}
+          predictions={predictions}
+          pointsToChange={pointsToChange}
+          setPointsToChange={setPointsToChange}
+        />
+      )}
       {loading && <Loading />}
       <VStack space={3}>
         <Center marginBottom={3}>
@@ -83,9 +97,17 @@ export default function FrontalDetectScreen() {
             img_url={`data:image/jpg;base64,${image.base64}`}
           />
         )}
-        <Button onPress={handleDone} isDisabled={!predictions || loading}>
-          Done
-        </Button>
+        <HStack justifyContent={"center"} space={3}>
+          <Button
+            onPress={() => setVisible(true)}
+            isDisabled={!predictions || loading}
+          >
+            Change Points
+          </Button>
+          <Button onPress={handleDone} isDisabled={!predictions || loading}>
+            Done
+          </Button>
+        </HStack>
       </VStack>
     </Center>
   );

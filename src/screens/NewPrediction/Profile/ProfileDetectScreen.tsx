@@ -5,6 +5,7 @@ import { Alert } from "react-native";
 import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
 import { IServerProfilePredictions } from "../../../@types/server";
 import CanvasImage from "../../../components/CanvasImage";
+import ChangePointsModal from "../../../components/ChangePointsModal";
 import Loading from "../../../components/Loading";
 import { useImage } from "../../../contexts/ImageContext";
 import { useProfilePredictions } from "../../../contexts/ProfilePredictionsContext";
@@ -22,6 +23,8 @@ export default function ProfileDetectScreen() {
   const [predictions, setPredictions] =
     useState<IServerProfilePredictions | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [pointsToChange, setPointsToChange] = useState<string[]>([]);
 
   const onDraw = (ctx: CanvasRenderingContext2D) => {
     setCtx(ctx);
@@ -63,13 +66,24 @@ export default function ProfileDetectScreen() {
         np: nullPoint,
         cc: nullPoint,
       });
-      navigation.navigate("ProfileMarkPoints");
+      pointsToChange.length > 0
+        ? navigation.navigate("ChangeProfilePointScreen", { pointsToChange })
+        : navigation.navigate("ProfileMarkPoints");
     }
   };
 
   return (
     <Center height={"full"}>
       {loading && <Loading />}
+      {predictions && (
+        <ChangePointsModal
+          setVisible={setVisible}
+          visible={visible}
+          predictions={predictions}
+          pointsToChange={pointsToChange}
+          setPointsToChange={setPointsToChange}
+        />
+      )}
       <VStack space={3}>
         <Center marginTop={2}>
           <HStack space={3}>
@@ -89,9 +103,17 @@ export default function ProfileDetectScreen() {
             img_url={`data:image/jpg;base64,${image.base64}`}
           />
         )}
-        <Button onPress={handleDone} isDisabled={!predictions || loading}>
-          Done
-        </Button>
+        <HStack justifyContent={"center"} space={3}>
+          <Button
+            onPress={() => setVisible(true)}
+            isDisabled={!predictions || loading}
+          >
+            Change Points
+          </Button>
+          <Button onPress={handleDone} isDisabled={!predictions || loading}>
+            Done
+          </Button>
+        </HStack>
       </VStack>
     </Center>
   );

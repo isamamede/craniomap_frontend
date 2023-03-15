@@ -4,12 +4,13 @@ import { FrontalPredictionsProvider } from "../contexts/FrontalPredictionsContex
 import { ImageProvider } from "../contexts/ImageContext";
 import { ProfilePredictionsProvider } from "../contexts/ProfilePredictionsContext";
 import { ServerProvider } from "../contexts/Server";
-import ChangeTrPointScreen from "../screens/NewPrediction/Frontal/ChangeTrPointScreen";
+import ChangeFrontalPointScreen from "../screens/NewPrediction/Frontal/ChangeFrontalPointScreen";
 import FrontalDetectScreen from "../screens/NewPrediction/Frontal/FrontalDetectScreen";
 import FrontalDistanceScreen from "../screens/NewPrediction/Frontal/FrontalDistanceScreen";
 import FrontalMesureScreen from "../screens/NewPrediction/Frontal/FrontalMesuresScreen";
 import ImageScreen from "../screens/NewPrediction/ImageScreen";
 import LayoutScreen from "../screens/NewPrediction/LayoutScreen";
+import ChangeProfilePointScreen from "../screens/NewPrediction/Profile/ChangeProfilePointScreen";
 import ProfileDetectScreen from "../screens/NewPrediction/Profile/ProfileDetectScreen";
 import ProfileMesuresScreen from "../screens/NewPrediction/Profile/ProfileMesuresScreen";
 import ProfilePointsScreen from "../screens/NewPrediction/Profile/ProfilePointsScreen";
@@ -36,12 +37,16 @@ export function NewStack() {
                 component={FrontalDistanceScreen}
               />
               <Screen
-                name="ChangeTrPointScreen"
-                component={ChangeTrPointScreen}
+                name="ChangeFrontalPointScreen"
+                component={ChangeFrontalPointScreen}
               />
               <Screen name="FrontalMesures" component={FrontalMesureScreen} />
 
               <Screen name="ProfileDetect" component={ProfileDetectScreen} />
+              <Screen
+                name="ChangeProfilePointScreen"
+                component={ChangeProfilePointScreen}
+              />
               <Screen
                 name="ProfileMarkPoints"
                 component={ProfilePointsScreen}
