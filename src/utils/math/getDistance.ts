@@ -7,9 +7,7 @@ import { TPoint } from "../../@types/landmarks";
  * @returns Distance between A and B in pixels
  */
 export function getDistance(A: TPoint, B: TPoint): number {
-  let y = B.x - A.x;
-  let x = B.y - A.y;
-  return Math.sqrt(x * x + y * y);
+  return Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2));
 }
 
 /**
@@ -24,10 +22,9 @@ export function getDistanceInCM(
   cm: number,
   cmInPx: number
 ): number {
-  let y = B.x - A.x;
-  let x = B.y - A.y;
+  const pixels = getDistance(A, B);
+  const pixelsPerCm = cmInPx / cm;
+  const distance = pixels / pixelsPerCm;
 
-  const distancePx = Math.sqrt(x * x + y * y);
-  const distance = (distancePx * cm) / cmInPx;
   return distance;
 }

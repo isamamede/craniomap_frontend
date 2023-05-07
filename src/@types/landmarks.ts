@@ -87,7 +87,9 @@ export type TPointsName =
   | "n"
   | "traL"
   | "traR"
-  | "cc";
+  | "cc"
+  | "zyR"
+  | "zyL";
 
 export interface IProfileType {
   name: MESURES_NAMES;

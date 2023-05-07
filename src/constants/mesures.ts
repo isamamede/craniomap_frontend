@@ -61,13 +61,13 @@ export const frontalMesuresMap: IFrontalType[] = [
     name: MESURES_NAMES.ATS,
     points: {
       begin: "tr",
-      end: "n",
+      end: "g",
     },
   },
   {
     name: MESURES_NAMES.ATM,
     points: {
-      begin: "n",
+      begin: "g",
       end: "sn",
     },
   },
@@ -81,8 +81,8 @@ export const frontalMesuresMap: IFrontalType[] = [
   {
     name: MESURES_NAMES.LF,
     points: {
-      begin: "traL",
-      end: "traR",
+      begin: "traR",
+      end: "traL",
     },
   },
 ];

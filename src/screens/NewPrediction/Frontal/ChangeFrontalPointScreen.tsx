@@ -17,20 +17,23 @@ export default function ChangeFrontalPointScreen({
   navigation,
 }: TProps) {
   const pointsToChange = route.params.pointsToChange;
-  const { frontalPredictions, setFrontalPredictions } = useFrontalPredictions();
+  let { frontalPredictions, setFrontalPredictions, setFrontalMeasures } =
+    useFrontalPredictions();
   const [index, setIndex] = useState<number>(0);
+  const [done, setDone] = useState<boolean>(false);
   const key = pointsToChange[index];
   const [point, setPoint] = useState<TPoint | null>(
     frontalPredictions ? (frontalPredictions as any)[key] : null
   );
 
-  const handleDone = () => {
+  const handleNext = async () => {
     if (point && frontalPredictions) {
       let obj: any = frontalPredictions;
       obj[key] = point;
       setFrontalPredictions(obj);
       if (index === pointsToChange.length - 1) {
-        navigation.navigate("FrontalMesures");
+        setFrontalMeasures();
+        setDone(true);
       } else {
         setIndex(index + 1);
       }
@@ -39,12 +42,22 @@ export default function ChangeFrontalPointScreen({
     }
   };
 
+  const handleDone = () => {
+    navigation.navigate("FrontalMesures");
+  };
+
   return (
     <Center width={"full"} height={"full"}>
       <ChangePoint pointName={key} point={point} setPoint={setPoint} />
-      <Button marginTop={"2"} onPress={handleDone} isDisabled={!point}>
-        Done
-      </Button>
+      {done ? (
+        <Button marginTop={"2"} onPress={handleDone} isDisabled={!point}>
+          Done
+        </Button>
+      ) : (
+        <Button marginTop={"2"} onPress={handleNext} isDisabled={!point}>
+          Next
+        </Button>
+      )}
     </Center>
   );
 }

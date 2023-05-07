@@ -11,22 +11,8 @@ export default function getFrontalMesures(
   cm: number,
   cmInPx: number
 ): IFrontalMesures {
-  const { gn, n, sn, st, tr, traL, traR } = predictions;
-  const cls: TMesure = {
-    type: "distance",
-    name: MESURES_NAMES.CLS,
-    value: getDistanceInCM(sn, st, cm, cmInPx),
-  };
-  const cli: TMesure = {
-    type: "distance",
-    name: MESURES_NAMES.CLI,
-    value: getDistanceInCM(st, gn, cm, cmInPx),
-  };
-  const pl: TMesure = {
-    type: "distance",
-    name: MESURES_NAMES.PL,
-    value: cls.value / cli.value,
-  };
+  const { gn, n, sn, st, tr, traL, traR, g } = predictions;
+
   const af: TMesure = {
     type: "distance",
     name: MESURES_NAMES.AF,
@@ -35,17 +21,17 @@ export default function getFrontalMesures(
   const ats: TMesure = {
     type: "distance",
     name: MESURES_NAMES.ATS,
-    value: getDistanceInCM(tr, n, cm, cmInPx),
+    value: getDistanceInCM(tr, g, cm, cmInPx),
   };
   const atm: TMesure = {
     type: "distance",
     name: MESURES_NAMES.ATM,
-    value: getDistanceInCM(n, sn, cm, cmInPx),
+    value: getDistanceInCM(g, sn, cm, cmInPx),
   };
   const ati: TMesure = {
     type: "distance",
     name: MESURES_NAMES.ATI,
-    value: getDistanceInCM(sn, gn, cm, cmInPx),
+    value: af.value - (ats.value + atm.value),
   };
   const lf: TMesure = {
     type: "distance",
@@ -61,6 +47,23 @@ export default function getFrontalMesures(
     type: "distance",
     name: MESURES_NAMES.PTMI,
     value: atm.value / ati.value,
+  };
+
+  const cls: TMesure = {
+    type: "distance",
+    name: MESURES_NAMES.CLS,
+    value: getDistanceInCM(sn, st, cm, cmInPx),
+  };
+  const cli: TMesure = {
+    type: "distance",
+    name: MESURES_NAMES.CLI,
+    value: ati.value - cls.value,
+  };
+
+  const pl: TMesure = {
+    type: "distance",
+    name: MESURES_NAMES.PL,
+    value: cls.value / cli.value,
   };
 
   return {
