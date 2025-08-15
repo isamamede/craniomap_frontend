@@ -1,17 +1,4 @@
-export const CLOUDINARY_UPLOAD_PRESET =
-  process.env.CLOUDINARY_UPLOAD_PRESET || "pic-app";
-
-export const CLOUDINARY_API_KEY =
-  process.env.CLOUDINARY_API_KEY || "545281651425943";
-
-export const CLOUDINARY_API_SECRET =
-  process.env.CLOUDINARY_API_SECRETcd || "M-5XFjQbXR0BoHuXSkZ59gggTx8";
-
-export const CLOUDINARY_URL =
-  process.env.CLOUDINARY_URL ||
-  "cloudinary://545281651425943:M-5XFjQbXR0BoHuXSkZ59gggTx8@pic-app";
-
-const ip: string = "ec2-44-198-171-23.compute-1.amazonaws.com";
+const ip: string = "ec2-98-86-214-11.compute-1.amazonaws.com";
 
 export const SERVER_URL = process.env.SERVER_URL || `http://${ip}:4000`;
 
