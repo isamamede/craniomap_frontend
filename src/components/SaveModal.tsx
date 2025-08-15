@@ -8,6 +8,7 @@ import {
 } from "native-base";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Alert } from "react-native";
+import RNFS from "react-native-fs";
 import uuid from "react-native-uuid";
 import {
   TFrontalPredictions,
@@ -22,7 +23,6 @@ import {
 } from "../@types/landmarks";
 import { tablesNames } from "../constants/database";
 import { useImage } from "../contexts/ImageContext";
-import { uploadToCloudinary } from "../databases/cloudinary";
 import { getRealm } from "../databases/realm";
 
 interface IProps {
@@ -31,6 +31,19 @@ interface IProps {
   mesures: IFrontalMesures | IProfileMesures;
   predictions: IFrontalPredictions | IProfilePredictions;
   table: string;
+}
+
+// Save image to device's Documents folder
+async function saveImageLocally(imageUri: string, participantId: string) {
+  try {
+    const fileName = `${participantId}_${Date.now()}.jpg`;
+    const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+    await RNFS.copyFile(imageUri, destPath);
+    return `file://${destPath}`;
+  } catch (err) {
+    console.error("Error saving image locally:", err);
+    throw err;
+  }
 }
 
 export default function SaveModal({
@@ -47,131 +60,117 @@ export default function SaveModal({
   const [participants, setParticipants] = useState<TParticipant[]>([]);
 
   const handleExistingParticipant = async () => {
-    if (image) {
-      setLoading(true);
+    if (!image) return;
 
-      const db = await getRealm();
-      try {
-        //check if participant exists
-        const participant = db.objectForPrimaryKey<TParticipant>(
-          tablesNames.participant,
-          participant_id
-        );
+    setLoading(true);
+    const db = await getRealm();
 
-        //only write to the db is particpant exists
-        if (participant) {
-          const uploadedImg = await uploadToCloudinary(image, participant._id);
-          if (uploadedImg) {
-            const { public_id, signature, url } = uploadedImg;
+    try {
+      const participant = db.objectForPrimaryKey<TParticipant>(
+        tablesNames.participant,
+        participant_id
+      );
 
-            let predictionsData: Omit<
-              TFrontalPredictions | TProfilePredictions,
-              "participant_id" | "_id" | "created_at"
-            > = {
-              image: {
-                url,
-                public_id,
-                signature,
-              },
-              ...mesures,
-              ...predictions,
-            };
-
-            const saved = db.write(() => {
-              return db.create<TFrontalPredictions | TProfilePredictions>(
-                table,
-                {
-                  ...predictionsData,
-                  participant_id: participant._id,
-                  created_at: new Date(),
-                }
-              );
-            });
-            saved
-              ? Alert.alert("Data saved successufully!")
-              : Alert.alert("Could not save data. Please, check the form.");
-          }
-        } else {
-          Alert.alert("Choosen particpant doesn't exist on database.");
-        }
-      } catch {
-        Alert.alert("Error", "Could not save data.");
-      } finally {
-        db.close();
-        setLoading(false);
+      if (!participant) {
+        Alert.alert("Chosen participant doesn't exist in database.");
+        return;
       }
+
+      const localImagePath = await saveImageLocally(image.uri, participant._id);
+
+      let predictionsData: Omit<
+        TFrontalPredictions | TProfilePredictions,
+        "participant_id" | "_id" | "created_at"
+      > = {
+        image: {
+          url: localImagePath,
+        },
+        ...mesures,
+        ...predictions,
+      };
+
+      const saved = db.write(() => {
+        return db.create<TFrontalPredictions | TProfilePredictions>(table, {
+          ...predictionsData,
+          participant_id: participant._id,
+          created_at: new Date(),
+        });
+      });
+
+      saved
+        ? Alert.alert("Data saved successfully!")
+        : Alert.alert("Could not save data.");
+    } catch (err) {
+      Alert.alert("Error", "Could not save data.");
+      console.error(err);
+    } finally {
+      db.close();
+      setLoading(false);
+      setVisible(false);
     }
-    setVisible(!visible);
   };
 
   const handleNewParticipant = async () => {
-    if (image) {
-      setLoading(true);
+    if (!image) return;
 
-      const db = await getRealm();
-      try {
-        //create new particpant
-        const newParticipant = db.write(() => {
-          return db.create<TParticipant>(tablesNames.participant, {
-            name,
-            _id: uuid.v4() as string,
-            created_at: new Date(),
-          });
-        });
-
-        const uploadedImg = await uploadToCloudinary(image, newParticipant._id);
-
-        if (uploadedImg) {
-          const { public_id, signature, url } = uploadedImg;
-
-          let predictionsData: Omit<
-            TFrontalPredictions | TProfilePredictions,
-            "participant_id" | "_id" | "created_at"
-          > = {
-            image: {
-              url,
-              public_id,
-              signature,
-            },
-            ...mesures,
-            ...predictions,
-          };
-
-          //create predictions
-          const saved = db.write(() => {
-            const created = db.create<
-              TFrontalPredictions | TProfilePredictions
-            >(table, {
-              ...predictionsData,
-              participant_id: newParticipant._id,
-              created_at: new Date(),
-            });
-            return created;
-          });
-          saved
-            ? Alert.alert("Data saved successufully!")
-            : Alert.alert("Could not save data. Please, check the form.");
-        }
-      } catch {
-        Alert.alert("Error", "Could not save data.");
-      } finally {
-        db.close();
-        setLoading(false);
-      }
-    }
-    setVisible(!visible);
-  };
-
-  const getParticpants = async () => {
+    setLoading(true);
     const db = await getRealm();
 
+    try {
+      const newParticipant = db.write(() => {
+        return db.create<TParticipant>(tablesNames.participant, {
+          name,
+          _id: uuid.v4() as string,
+          created_at: new Date(),
+        });
+      });
+
+      const localImagePath = await saveImageLocally(
+        image.uri,
+        newParticipant._id
+      );
+
+      let predictionsData: Omit<
+        TFrontalPredictions | TProfilePredictions,
+        "participant_id" | "_id" | "created_at"
+      > = {
+        image: {
+          url: localImagePath,
+        },
+        ...mesures,
+        ...predictions,
+      };
+
+      const saved = db.write(() => {
+        return db.create<TFrontalPredictions | TProfilePredictions>(table, {
+          ...predictionsData,
+          participant_id: newParticipant._id,
+          created_at: new Date(),
+        });
+      });
+
+      saved
+        ? Alert.alert("Data saved successfully!")
+        : Alert.alert("Could not save data.");
+    } catch (err) {
+      Alert.alert("Error", "Could not save data.");
+      console.error(err);
+    } finally {
+      db.close();
+      setLoading(false);
+      setVisible(false);
+    }
+  };
+
+  const getParticipants = async () => {
+    const db = await getRealm();
     try {
       const response = db
         .objects<TParticipant[]>(tablesNames.participant)
         .sorted("created_at")
         .toJSON();
       setParticipants(response as any);
-    } catch (err) {
+    } catch {
       Alert.alert("Error", "Could not fetch participants.");
     } finally {
       db.close();
@@ -179,7 +178,7 @@ export default function SaveModal({
   };
 
   useEffect(() => {
-    getParticpants();
+    getParticipants();
   }, []);
 
   return (
@@ -192,7 +191,6 @@ export default function SaveModal({
             <FormControl.Label>Choose participant</FormControl.Label>
             <Select
               minWidth="200"
-              accessibilityLabel="Choose Particpant"
               placeholder="Choose Participant"
               _selectedItem={{
                 bg: "teal.600",
@@ -217,7 +215,7 @@ export default function SaveModal({
             <FormControl.Label>Participant's name</FormControl.Label>
             <Input
               mt="1"
-              placeholder="Participant ID"
+              placeholder="Participant Name"
               value={name}
               onChangeText={setName}
               isDisabled={participant_id !== "none"}
@@ -237,11 +235,9 @@ export default function SaveModal({
               SAVE
             </Button>
             <Button
-              onPress={() => {
-                setVisible(false);
-              }}
+              onPress={() => setVisible(false)}
               isLoading={loading}
-              colorScheme={"warning.500"}
+              colorScheme={"warning"}
             >
               CLOSE
             </Button>

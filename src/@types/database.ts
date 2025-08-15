@@ -14,8 +14,6 @@ export type TParticipant = {
  */
 export type TImage = {
   url: string;
-  public_id: string;
-  signature: string;
 };
 
 /**

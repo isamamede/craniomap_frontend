@@ -5,8 +5,6 @@ export const ImageSchema = {
   embedded: true,
   properties: {
     url: "string",
-    public_id: "string",
-    signature: "string",
   },
 };
 

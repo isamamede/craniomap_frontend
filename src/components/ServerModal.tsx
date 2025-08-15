@@ -28,7 +28,7 @@ export default function ServerModal({ setVisible, visible }: IProps) {
             <FormControl.Label>Ip</FormControl.Label>
             <Input
               mt="1"
-              placeholder="Participant ID"
+              placeholder="Server IP"
               value={newIp}
               onChangeText={setNewIp}
             />
