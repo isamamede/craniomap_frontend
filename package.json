@@ -1,6 +1,6 @@
 {
-  "name": "facemesures",
-  "version": "1.0.1",
+  "name": "caniomap",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start --dev-client",
