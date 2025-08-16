@@ -1,0 +1,120 @@
+import { useNavigation } from "@react-navigation/native";
+import { Button, Center, HStack, VStack } from "native-base";
+import { useRef, useState } from "react";
+import { Alert } from "react-native";
+import Canvas, { CanvasRenderingContext2D } from "react-native-canvas";
+import { IFrontalPredictions } from "../../../@types/landmarks";
+import CanvasImage from "../../../components/CanvasImage";
+import ChangePointsModal from "../../../components/ChangePointsModal";
+import Loading from "../../../components/Loading";
+import { useFrontalPredictions } from "../../../contexts/FrontalPredictionsContext";
+import { useImage } from "../../../contexts/ImageContext";
+import { useServer } from "../../../contexts/Server";
+import drawFront from "../../../utils/canvas/drawFront";
+import getServerFrontal from "../../../utils/server/getServerFrontal";
+
+export default function FrontalDetectScreen() {
+  const navigation = useNavigation();
+  const { node_url } = useServer();
+  const { image } = useImage();
+  const { setFrontalPredictions } = useFrontalPredictions();
+  const canvas = useRef<Canvas>(null);
+  const [predictions, setPredictions] = useState<IFrontalPredictions | null>(
+    null
+  );
+  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [pointsToChange, setPointsToChange] = useState<string[]>(["tr"]);
+
+  const handleDetect = async () => {
+    if (image) {
+      setLoading(true);
+
+      await getServerFrontal(node_url, image.uri)
+        .then((response) => {
+          if (response) {
+            setPredictions(response);
+            Alert.alert("Predictions recivied successfully!");
+          } else {
+            Alert.alert("No predictions recivied :(");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          Alert.alert(
+            "Error",
+            error instanceof Error
+              ? error.message
+              : "Erro desconhecido ao conectar ao servidor."
+          );
+        });
+
+      setLoading(false);
+    }
+  };
+
+  const onDraw = (contex: CanvasRenderingContext2D) => {
+    setCtx(contex);
+  };
+
+  const handleDraw = () => {
+    if (predictions && ctx) {
+      drawFront(predictions, ctx);
+    }
+  };
+
+  const handleDone = () => {
+    if (predictions) {
+      setFrontalPredictions(predictions);
+      navigation.navigate("ChangeFrontalPointScreen", {
+        pointsToChange,
+      });
+    }
+  };
+
+  return (
+    <Center height={"full"}>
+      {predictions && (
+        <ChangePointsModal
+          setVisible={setVisible}
+          visible={visible}
+          predictions={predictions}
+          pointsToChange={pointsToChange}
+          setPointsToChange={setPointsToChange}
+        />
+      )}
+      {loading && <Loading />}
+      <VStack space={3}>
+        <Center marginBottom={3}>
+          <HStack space={3}>
+            <Button onPress={handleDetect} isDisabled={loading}>
+              Detect
+            </Button>
+            <Button onPress={handleDraw} isDisabled={!predictions || loading}>
+              Draw
+            </Button>
+          </HStack>
+        </Center>
+        {image && (
+          <CanvasImage
+            canvasRef={canvas}
+            onDraw={onDraw}
+            img_url={`data:image/jpg;base64,${image.base64}`}
+          />
+        )}
+        <HStack justifyContent={"center"} space={3}>
+          <Button
+            onPress={() => setVisible(true)}
+            isDisabled={!predictions || loading}
+          >
+            Change Points
+          </Button>
+          <Button onPress={handleDone} isDisabled={!predictions || loading}>
+            Done
+          </Button>
+        </HStack>
+      </VStack>
+    </Center>
+  );
+}

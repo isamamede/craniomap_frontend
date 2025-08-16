@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider } from "native-base";
+import React, { useEffect } from "react";
+import { BackHandler } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { theme } from "./src/constants/theme";
+import { Routes } from "./src/routes";
 
-export default function App() {
+const App: React.FunctionComponent<any> = () => {
+  useEffect(() => {
+    // Temporary polyfill for old libs
+    // @ts-ignore
+    if (!BackHandler.removeEventListener) {
+      // @ts-ignore
+      BackHandler.removeEventListener = () => {};
+    }
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <NativeBaseProvider theme={theme}>
+        <Routes />
+        <StatusBar style="dark" />
+      </NativeBaseProvider>
+    </SafeAreaProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
