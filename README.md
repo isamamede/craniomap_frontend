@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue)](https://www.typescriptlang.org/)
 
 **Craniomap** é um aplicativo mobile desenvolvido em **React Native com Expo**, voltado para coleta, análise e anotação de medidas faciais.  
-O app integra **TensorFlow** e *CompreFace** para detecção de landmarks faciais, com persistência de dados local via **Realm**.
+O app integra TensorFlow e CompreFace para detecção de landmarks faciais, com persistência de dados local via **Realm**.
 
 > ⚠️ Servidor de teste atual: `ec2-98-86-214-11.compute-1.amazonaws.com`  
 > ⚠️ Observação: o servidor de teste **nem sempre está ativo**. Substituir pelo servidor de produção quando disponível.  
@@ -51,7 +51,7 @@ O app integra **TensorFlow** e *CompreFace** para detecção de landmarks faciai
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/isamamede/craniomap_frontend.git
+git clone https://github.com/isamamede/craniomap_frontend.git craniomap
 cd craniomap
 ````
 
@@ -63,13 +63,11 @@ npm install
 yarn install
 ```
 
-3. Inicie o projeto no Expo Go (Android ou iOS):
+3. Inicie o projeto no Expo (Android ou iOS):
 
 ```bash
-expo start
+npx expo start
 ```
-
-* Abra o QR code no Expo Go para testar o app rapidamente.
 
 ---
 
@@ -78,7 +76,7 @@ expo start
 ### **Android (APK)**
 
 ```bash
-eas build --platform android --profile preview
+eas build --platform android
 ```
 
 * Após a conclusão, você receberá um link para download do APK.
@@ -87,7 +85,7 @@ eas build --platform android --profile preview
 ### **iOS (IPA)**
 
 ```bash
-eas build --platform ios --profile preview
+eas build --platform ios
 ```
 
 * Para iOS, é necessário um **Apple Developer Account**.
