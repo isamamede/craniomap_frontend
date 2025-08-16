@@ -156,6 +156,3 @@ O app solicita:
 * Use **Node.js 20.x** para compatibilidade com EAS Build.
 * Para builds iOS, é necessário **Apple Developer Account**.
 * Para builds Android, o APK pode ser compartilhado sem custos entre membros do time.
-
-Quer que eu faça isso?
-```
